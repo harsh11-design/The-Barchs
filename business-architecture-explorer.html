@@ -1,0 +1,3695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23070f3d'/%3E%3Ctext x='16' y='22' font-family='sans-serif' font-size='18' font-weight='800' fill='%23d7f205' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E">
+  <title>Business Architecture Explorer | Flagship Diagnostic | Barchs – The Business Architects</title>
+  <meta name="description" content="TBA Business Architecture Explorer: A diagnostic framework that examines how the 7 core pillars of your business fit together, uncovers structural bottlenecks, and builds an actionable growth roadmap.">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#d9d4fb">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&display=swap" rel="stylesheet">
+
+  <!-- Local Chart.js with CDN fallback -->
+  <script src="js/chart.min.js"></script>
+  <script>
+    if (typeof Chart === 'undefined') {
+      document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js"><\/script>');
+    }
+  </script>
+
+  <style>
+    /* ==========================================================================
+       TBA DESIGN SYSTEM & PHENOMENON TOKENS
+       ========================================================================== */
+    :root {
+      --bg: #d9d4fb;
+      --bg-surface: #f4f2ff;
+      --bg-alt: #e7e3ff;
+      --card: #ffffff;
+      --card-border: #cfc9f3;
+      --ink: #070f3d;
+      --ink-dark: #040924;
+      --ink-light: #152266;
+      --cobalt: #0b1fb8;
+      --brand-blue: #2347ff;
+      --brand-blue-hover: #1938db;
+      --lime: #d7f205;
+      --lime-hover: #c4dc00;
+      --mu: #4f5478;
+      --mu-light: #7b82ab;
+      --ln: #cfc9f3;
+      --ln-light: #e8e4fd;
+      
+      --success-bg: #dcfce7;
+      --success-tx: #15803d;
+      --warning-bg: #fef3c7;
+      --warning-tx: #b45309;
+      --danger-bg: #ffe4e6;
+      --danger-tx: #be123c;
+      --info-bg: #e0f2fe;
+      --info-tx: #0369a1;
+
+      --r-sm: 12px;
+      --r-md: 20px;
+      --r-lg: 28px;
+      --r-pill: 980px;
+
+      --shadow-sm: 0 4px 12px rgba(7, 15, 61, 0.05);
+      --shadow-md: 0 14px 36px rgba(35, 40, 160, 0.08);
+      --shadow-lg: 0 24px 60px rgba(7, 15, 61, 0.14);
+      --shadow-glow: 0 0 24px rgba(215, 242, 5, 0.4);
+
+      --fh: "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --fb: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--fb);
+      font-size: 16px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 60px;
+    }
+
+    /* Top Announcement Bar */
+    .bar {
+      background: var(--ink);
+      color: #fff;
+      text-align: center;
+      font-size: 13px;
+      padding: 9px 16px;
+      font-family: var(--fb);
+      letter-spacing: 0.01em;
+    }
+    .bar a {
+      color: var(--lime);
+      font-weight: 700;
+      text-decoration: underline;
+      margin-left: 6px;
+    }
+
+    /* Navigation */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(217, 212, 251, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--ln);
+    }
+    nav .in {
+      max-width: 1140px;
+      margin: auto;
+      height: 64px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+    .brand-logo svg {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(7, 15, 61, 0.15);
+    }
+    .brand-logo-text {
+      font-family: var(--fh);
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .brand-logo-text span {
+      display: block;
+      font-size: 10px;
+      font-family: var(--fb);
+      font-weight: 600;
+      color: var(--cobalt);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    nav ul {
+      display: flex;
+      gap: 22px;
+      list-style: none;
+      font-family: var(--fh);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--mu);
+    }
+    nav ul a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    nav ul a:hover {
+      color: var(--ink);
+    }
+    nav .acts {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Standard Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--lime);
+      color: var(--ink);
+      padding: 13px 28px;
+      border-radius: var(--r-pill);
+      font-family: var(--fh);
+      font-size: 15px;
+      font-weight: 700;
+      border: 0;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s cubic-bezier(0.2, 0.8, 0.3, 1);
+      box-shadow: none;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      background: #e4ff3a;
+      box-shadow: 0 8px 24px rgba(215, 242, 5, 0.4);
+    }
+    .btn:active {
+      transform: translateY(0);
+    }
+    .btn.primary {
+      background: var(--brand-blue);
+      color: #fff;
+    }
+    .btn.primary:hover {
+      background: var(--brand-blue-hover);
+      box-shadow: 0 8px 24px rgba(35, 71, 255, 0.35);
+    }
+    .btn.dark {
+      background: var(--ink);
+      color: #fff;
+    }
+    .btn.dark:hover {
+      background: var(--ink-light);
+      box-shadow: 0 8px 24px rgba(7, 15, 61, 0.25);
+    }
+    .btn.o {
+      background: transparent;
+      color: var(--ink);
+      box-shadow: inset 0 0 0 1.5px var(--ink);
+    }
+    .btn.o:hover {
+      background: rgba(7, 15, 61, 0.05);
+      transform: translateY(-2px);
+    }
+    .btn.sm {
+      padding: 8px 18px;
+      font-size: 13px;
+    }
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    /* Container */
+    .w {
+      max-width: 1080px;
+      margin: auto;
+      padding: 0 20px;
+    }
+    .c { text-align: center; }
+
+    /* Badges & Eyebrows */
+    .ey {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--lime);
+      color: var(--ink);
+      padding: 6px 14px;
+      border-radius: var(--r-pill);
+      font-family: var(--fh);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-bottom: 16px;
+    }
+    .pill {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: var(--r-pill);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .pill.success { background: var(--success-bg); color: var(--success-tx); }
+    .pill.warning { background: var(--warning-bg); color: var(--warning-tx); }
+    .pill.danger  { background: var(--danger-bg);  color: var(--danger-tx); }
+    .pill.info    { background: var(--info-bg);    color: var(--info-tx); }
+
+    /* Tool Shell */
+    .tool-shell {
+      margin: 16px 10px 30px;
+      background: var(--bg-surface);
+      border-radius: var(--r-lg);
+      padding: 40px 24px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    /* Tool Header / Hero */
+    .tool-hero {
+      text-align: center;
+      max-width: 820px;
+      margin: 0 auto 36px;
+    }
+    .tool-hero h1 {
+      font-family: var(--fh);
+      font-size: clamp(34px, 5.2vw, 54px);
+      line-height: 1.08;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+    .tool-hero .lead {
+      font-size: clamp(17px, 2vw, 20px);
+      line-height: 1.45;
+      color: var(--mu);
+      max-width: 68ch;
+      margin: 0 auto 24px;
+    }
+    .tool-badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--mu);
+    }
+    .tool-badges span {
+      background: rgba(255, 255, 255, 0.7);
+      padding: 6px 14px;
+      border-radius: var(--r-pill);
+      border: 1px solid var(--ln-light);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Stepper / Progress Bar */
+    .stepper-wrap {
+      max-width: 860px;
+      margin: 0 auto 36px;
+      background: #ffffff;
+      border-radius: var(--r-md);
+      padding: 20px 24px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--ln-light);
+    }
+    .stepper-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: var(--fh);
+    }
+    .stepper-header .step-title {
+      color: var(--brand-blue);
+      font-size: 15px;
+    }
+    .stepper-header .step-count {
+      color: var(--mu);
+    }
+    .progress-track {
+      height: 8px;
+      background: var(--ln-light);
+      border-radius: 99px;
+      overflow: hidden;
+      position: relative;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--brand-blue), var(--lime));
+      border-radius: 99px;
+      width: 0%;
+      transition: width 0.4s cubic-bezier(0.2, 0.8, 0.3, 1);
+    }
+    .step-pills {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 14px;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .step-dot {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--mu-light);
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: var(--r-pill);
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .step-dot.active {
+      color: var(--ink);
+      background: var(--bg-alt);
+      font-weight: 700;
+    }
+    .step-dot.completed {
+      color: var(--cobalt);
+    }
+    .step-dot .num {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--ln-light);
+      display: grid;
+      place-items: center;
+      font-size: 10px;
+    }
+    .step-dot.active .num {
+      background: var(--brand-blue);
+      color: #fff;
+    }
+    .step-dot.completed .num {
+      background: var(--lime);
+      color: var(--ink);
+    }
+
+    /* Assessment Content Cards */
+    .step-card {
+      display: none;
+      max-width: 860px;
+      margin: 0 auto;
+      background: var(--card);
+      border-radius: var(--r-lg);
+      padding: 40px;
+      box-shadow: var(--shadow-md);
+      animation: fadeIn 0.35s ease;
+    }
+    .step-card.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .step-intro {
+      margin-bottom: 30px;
+      border-bottom: 1px solid var(--ln-light);
+      padding-bottom: 20px;
+    }
+    .step-intro .pillar-num {
+      font-family: var(--fh);
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--brand-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      display: block;
+      margin-bottom: 6px;
+    }
+    .step-intro h2 {
+      font-family: var(--fh);
+      font-size: clamp(24px, 3.2vw, 32px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .step-intro p {
+      color: var(--mu);
+      font-size: 15px;
+      max-width: 70ch;
+    }
+
+    /* Form Fields for Step 0 (Profile) */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+    .form-group label {
+      font-size: 14px;
+      font-weight: 700;
+      font-family: var(--fh);
+      color: var(--ink);
+    }
+    .form-group label span {
+      font-weight: 400;
+      color: var(--mu);
+      font-size: 12px;
+      margin-left: 6px;
+    }
+    .form-control {
+      font-family: var(--fb);
+      font-size: 15px;
+      padding: 13px 16px;
+      border: 1.5px solid var(--ln);
+      border-radius: var(--r-sm);
+      background: #ffffff;
+      color: var(--ink);
+      transition: all 0.2s;
+      width: 100%;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--brand-blue);
+      box-shadow: 0 0 0 3px rgba(35, 71, 255, 0.15);
+    }
+
+    /* Diagnostic Question Blocks */
+    .question-block {
+      margin-bottom: 34px;
+    }
+    .question-title {
+      font-family: var(--fh);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .question-title .q-idx {
+      background: var(--bg-alt);
+      color: var(--cobalt);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    /* Option Cards */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .option-card {
+      position: relative;
+      background: #ffffff;
+      border: 1.5px solid var(--ln-light);
+      border-radius: var(--r-sm);
+      padding: 16px 20px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.2, 0.8, 0.3, 1);
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .option-card:hover {
+      border-color: var(--brand-blue);
+      background: #fbfaff;
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+    .option-card input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .radio-indicator {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--ln);
+      margin-top: 2px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      transition: all 0.2s;
+      background: #ffffff;
+    }
+    .radio-indicator::after {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--brand-blue);
+      transform: scale(0);
+      transition: transform 0.2s;
+    }
+    .option-card.selected {
+      border-color: var(--brand-blue);
+      background: #f6f5ff;
+      box-shadow: 0 4px 16px rgba(35, 71, 255, 0.1);
+    }
+    .option-card.selected .radio-indicator {
+      border-color: var(--brand-blue);
+    }
+    .option-card.selected .radio-indicator::after {
+      transform: scale(1);
+    }
+    .option-content {
+      flex: 1;
+    }
+    .option-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .option-header strong {
+      font-family: var(--fh);
+      font-size: 15px;
+      color: var(--ink);
+    }
+    .maturity-tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: var(--r-pill);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .maturity-1 { background: var(--danger-bg); color: var(--danger-tx); }
+    .maturity-2 { background: var(--warning-bg); color: var(--warning-tx); }
+    .maturity-3 { background: var(--info-bg); color: var(--info-tx); }
+    .maturity-4 { background: var(--success-bg); color: var(--success-tx); }
+
+    .option-desc {
+      font-size: 13.5px;
+      color: var(--mu);
+      line-height: 1.45;
+    }
+
+    /* Conditional Branch Container */
+    .conditional-box {
+      margin-top: 14px;
+      padding: 16px 20px;
+      background: var(--bg-alt);
+      border-radius: var(--r-sm);
+      border-left: 4px solid var(--brand-blue);
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    .conditional-box.visible {
+      display: block;
+    }
+    .conditional-box p.cond-prompt {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+
+    /* Stepper Navigation Actions */
+    .step-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--ln-light);
+    }
+
+    /* ==========================================================================
+       REVIEW & AUDIT PHASE (Page 7 requirements)
+       ========================================================================== */
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .review-item {
+      background: var(--bg-surface);
+      border-radius: var(--r-sm);
+      padding: 18px;
+      border: 1px solid var(--ln);
+    }
+    .review-item h4 {
+      font-family: var(--fh);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--brand-blue);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .review-item .edit-link {
+      font-size: 12px;
+      color: var(--cobalt);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .review-item p {
+      font-size: 13px;
+      color: var(--mu);
+      line-height: 1.4;
+    }
+
+    /* ==========================================================================
+       RESULTS DASHBOARD
+       ========================================================================== */
+    #results-dashboard {
+      display: none;
+      max-width: 1040px;
+      margin: 0 auto;
+      animation: fadeIn 0.4s ease;
+    }
+    #results-dashboard.active {
+      display: block;
+    }
+
+    .report-hero {
+      background: radial-gradient(60% 60% at 85% 10%, #3550ff 0%, transparent 70%),
+                  radial-gradient(40% 40% at 10% 90%, #1a2fd0 0%, transparent 65%),
+                  linear-gradient(150deg, #0b1fb8, #070f3d);
+      color: #ffffff;
+      border-radius: var(--r-lg);
+      padding: 48px;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .report-hero-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .report-meta {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--lime);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .report-hero h2 {
+      font-family: var(--fh);
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 14px;
+    }
+    .report-hero p.lead-eval {
+      font-size: 16px;
+      line-height: 1.5;
+      color: #d1d8ff;
+      margin-bottom: 24px;
+    }
+    .report-summary-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .report-summary-tags span {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      padding: 6px 14px;
+      border-radius: var(--r-pill);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* Dial Gauge Card */
+    .dial-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--r-md);
+      padding: 28px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .score-dial-svg {
+      width: 170px;
+      height: 170px;
+      transform: rotate(-90deg);
+    }
+    .dial-circle-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.15);
+      stroke-width: 12;
+    }
+    .dial-circle-progress {
+      fill: none;
+      stroke: var(--lime);
+      stroke-width: 12;
+      stroke-linecap: round;
+      stroke-dasharray: 440;
+      stroke-dashoffset: 440;
+      transition: stroke-dashoffset 1.4s cubic-bezier(0.2, 0.8, 0.3, 1);
+    }
+    .dial-score-val {
+      font-family: var(--fh);
+      font-size: 46px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-top: -115px;
+      margin-bottom: 45px;
+      line-height: 1;
+    }
+    .dial-score-val span {
+      font-size: 20px;
+      color: var(--lime);
+      font-weight: 600;
+    }
+    .dial-stage-badge {
+      display: inline-block;
+      background: var(--lime);
+      color: var(--ink);
+      font-family: var(--fh);
+      font-size: 14px;
+      font-weight: 800;
+      padding: 6px 18px;
+      border-radius: var(--r-pill);
+      letter-spacing: 0.02em;
+      margin-top: 10px;
+    }
+    .dial-benchmark-note {
+      font-size: 12px;
+      color: #cbd5ff;
+      margin-top: 8px;
+    }
+
+    /* Executive KPI Grid */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .kpi-box {
+      background: var(--card);
+      border-radius: var(--r-md);
+      padding: 22px 24px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--ln-light);
+    }
+    .kpi-box span.kpi-lbl {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--mu);
+      margin-bottom: 6px;
+    }
+    .kpi-box strong.kpi-val {
+      font-family: var(--fh);
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--ink);
+      display: block;
+      line-height: 1.1;
+    }
+    .kpi-box p.kpi-sub {
+      font-size: 12.5px;
+      color: var(--mu);
+      margin-top: 4px;
+    }
+
+    /* Dashboard Sections */
+    .dash-section {
+      background: var(--card);
+      border-radius: var(--r-lg);
+      padding: 36px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 28px;
+      border: 1px solid var(--ln-light);
+    }
+    .dash-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--ln-light);
+      padding-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .dash-section-header h3 {
+      font-family: var(--fh);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .dash-section-header p {
+      color: var(--mu);
+      font-size: 14px;
+      max-width: 60ch;
+    }
+
+    /* Visual Radar & Breakdown Layout */
+    .radar-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      align-items: center;
+    }
+    .chart-box {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      margin: auto;
+      height: 380px;
+    }
+    .pillar-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .bar-item {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .bar-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13.5px;
+      font-weight: 700;
+      font-family: var(--fh);
+      color: var(--ink);
+    }
+    .bar-info .bar-val {
+      color: var(--brand-blue);
+    }
+    .bar-track {
+      height: 9px;
+      background: var(--ln-light);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .bar-progress {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, var(--brand-blue), var(--lime));
+      transition: width 1s ease-in-out;
+    }
+
+    /* ==========================================================================
+       CONNECTIVITY MAP (Connected vs Disconnected Functions)
+       ========================================================================== */
+    .connectivity-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .conn-card {
+      border: 1.5px solid var(--ln);
+      border-radius: var(--r-sm);
+      padding: 18px 20px;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: transform 0.2s;
+    }
+    .conn-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    .conn-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .conn-header strong {
+      font-family: var(--fh);
+      font-size: 15px;
+      color: var(--ink);
+    }
+    .conn-links {
+      font-size: 12.5px;
+      color: var(--mu);
+    }
+    .conn-links b {
+      color: var(--ink);
+    }
+    .conn-status-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .status-dot.connected { background: #16a34a; box-shadow: 0 0 8px rgba(22, 163, 74, 0.4); }
+    .status-dot.partial { background: #eab308; box-shadow: 0 0 8px rgba(234, 179, 8, 0.4); }
+    .status-dot.disconnected { background: #e11d48; box-shadow: 0 0 8px rgba(225, 29, 72, 0.4); }
+
+    /* Strengths & Weaknesses Split */
+    .sw-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .sw-col {
+      background: var(--bg-surface);
+      border-radius: var(--r-md);
+      padding: 24px;
+      border: 1px solid var(--ln);
+    }
+    .sw-col.strengths {
+      border-top: 4px solid #16a34a;
+    }
+    .sw-col.weaknesses {
+      border-top: 4px solid #e11d48;
+    }
+    .sw-col h4 {
+      font-family: var(--fh);
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sw-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .sw-list li {
+      font-size: 14px;
+      color: var(--ink);
+      line-height: 1.45;
+      padding-left: 24px;
+      position: relative;
+    }
+    .sw-col.strengths .sw-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #16a34a;
+      font-weight: 800;
+    }
+    .sw-col.weaknesses .sw-list li::before {
+      content: "!";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #e11d48;
+      font-weight: 800;
+    }
+    .sw-list li small {
+      display: block;
+      color: var(--mu);
+      font-size: 12.5px;
+      margin-top: 3px;
+    }
+
+    /* ==========================================================================
+       ACTION ROADMAP MATRIX
+       ========================================================================== */
+    .roadmap-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--ln-light);
+      padding-bottom: 12px;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 8px 18px;
+      border-radius: var(--r-pill);
+      font-family: var(--fh);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--mu);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: var(--ink);
+      color: #ffffff;
+    }
+    .action-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .action-card {
+      background: #ffffff;
+      border: 1.5px solid var(--ln);
+      border-radius: var(--r-sm);
+      padding: 20px 24px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 20px;
+      align-items: center;
+      transition: all 0.2s;
+    }
+    .action-card:hover {
+      border-color: var(--brand-blue);
+      box-shadow: var(--shadow-sm);
+      transform: translateY(-2px);
+    }
+    .action-priority-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--bg-alt);
+      color: var(--cobalt);
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      font-weight: 800;
+      font-family: var(--fh);
+    }
+    .action-body strong {
+      font-family: var(--fh);
+      font-size: 16px;
+      color: var(--ink);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .action-body p {
+      font-size: 13.5px;
+      color: var(--mu);
+      line-height: 1.45;
+    }
+    .action-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-end;
+    }
+
+    /* Sensitivity Simulator */
+    .simulator-wrap {
+      background: var(--bg-surface);
+      border-radius: var(--r-md);
+      padding: 24px;
+      border: 1px solid var(--ln);
+      margin-top: 20px;
+    }
+    .sim-slider-row {
+      display: grid;
+      grid-template-columns: 180px 1fr 60px;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .sim-slider-row label {
+      font-size: 13.5px;
+      font-weight: 700;
+      font-family: var(--fh);
+      color: var(--ink);
+    }
+    .sim-slider-row input[type="range"] {
+      width: 100%;
+      accent-color: var(--brand-blue);
+      cursor: pointer;
+    }
+    .sim-slider-row span.sim-val {
+      font-family: var(--fh);
+      font-weight: 700;
+      color: var(--brand-blue);
+      text-align: right;
+    }
+    .sim-output-box {
+      margin-top: 18px;
+      padding: 16px;
+      background: #ffffff;
+      border-radius: var(--r-sm);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1.5px solid var(--lime);
+    }
+
+    /* TBA Service Matching Cards */
+    .services-match-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .service-match-card {
+      background: #ffffff;
+      border: 1.5px solid var(--ln-light);
+      border-radius: var(--r-md);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all 0.25s;
+    }
+    .service-match-card:hover {
+      border-color: var(--brand-blue);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+    }
+    .service-tag-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .service-match-card h4 {
+      font-family: var(--fh);
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .service-match-card p {
+      font-size: 14px;
+      color: var(--mu);
+      line-height: 1.45;
+    }
+    .service-match-card ul {
+      padding-left: 18px;
+      font-size: 13px;
+      color: var(--mu);
+      margin: 6px 0 12px;
+    }
+    .service-match-card .btn {
+      margin-top: auto;
+    }
+
+    /* Executive Actions Footer Bar */
+    .report-actions-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      margin: 36px 0;
+      padding: 24px;
+      background: #ffffff;
+      border-radius: var(--r-pill);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Data Limitation Callout */
+    .disclaimer-box {
+      background: var(--bg-alt);
+      border-radius: var(--r-sm);
+      padding: 16px 20px;
+      font-size: 12.5px;
+      color: var(--mu);
+      line-height: 1.5;
+      margin-top: 24px;
+      border-left: 3px solid var(--cobalt);
+    }
+    .disclaimer-box strong {
+      color: var(--ink);
+    }
+
+    /* Modal for Consultation */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(7, 15, 61, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
+      place-items: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .modal-overlay.open {
+      display: grid;
+      opacity: 1;
+    }
+    .modal-box {
+      background: #ffffff;
+      border-radius: var(--r-lg);
+      padding: 36px;
+      max-width: 540px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      animation: popIn 0.3s cubic-bezier(0.2, 0.8, 0.3, 1);
+    }
+    @keyframes popIn {
+      from { transform: scale(0.92) translateY(14px); }
+      to { transform: scale(1) translateY(0); }
+    }
+    .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--bg-alt);
+      border: 0;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      color: var(--ink);
+      display: grid;
+      place-items: center;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--ink);
+      color: #aab6d6;
+      border-radius: var(--r-lg);
+      margin: 16px 10px 0;
+      padding: 48px 24px 32px;
+      font-size: 13.5px;
+    }
+    footer .w {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 36px;
+    }
+    footer h4 {
+      color: #fff;
+      font-family: var(--fh);
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+    footer ul { list-style: none; }
+    footer li { margin: 6px 0; }
+    footer a { color: inherit; text-decoration: none; }
+    footer a:hover { color: #fff; text-decoration: underline; }
+    .footer-bottom {
+      max-width: 1080px;
+      margin: 36px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 12px;
+    }
+
+    /* ==========================================================================
+       PRINT STYLESHEET (Executive 2-page PDF Output)
+       ========================================================================== */
+    @media print {
+      body { background: #ffffff !important; color: #000000 !important; font-size: 11pt; padding: 0; }
+      nav, .bar, .stepper-wrap, .report-actions-bar, .modal-overlay, footer, .tab-btn { display: none !important; }
+      .tool-shell { margin: 0; padding: 0; border: none; box-shadow: none; background: transparent !important; }
+      #results-dashboard { display: block !important; }
+      .step-card { display: none !important; }
+      .report-hero { background: #070f3d !important; color: #ffffff !important; border-radius: 8px; padding: 24px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .dash-section { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; margin-bottom: 18px; padding: 18px; }
+      .sw-grid, .radar-container { grid-template-columns: 1fr 1fr; }
+      .chart-box { max-width: 320px; height: 260px; }
+      .service-match-card { break-inside: avoid; border: 1px solid #ddd; }
+      .dial-circle-progress { stroke: #d7f205 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .report-hero-grid { grid-template-columns: 1fr; gap: 24px; }
+      .radar-container { grid-template-columns: 1fr; }
+      .sw-grid { grid-template-columns: 1fr; }
+      .action-card { grid-template-columns: 1fr; gap: 12px; }
+      .action-meta { align-items: flex-start; }
+      .sim-slider-row { grid-template-columns: 1fr; gap: 6px; }
+      .tool-shell { padding: 24px 14px; }
+      .step-card { padding: 24px 16px; }
+      .report-hero { padding: 28px 18px; }
+      .dash-section { padding: 22px 16px; }
+    }
+  </style>
+<link rel="stylesheet" href="./assets/header.css">
+</head>
+<body>
+
+  <!-- Top Ribbon -->
+  <!-- BARCHS_HEADER_START -->
+<!-- Top Announcement Bar -->
+<div class="top-announcement-bar">
+  <div class="top-announcement-inner">
+    <span class="announcement-pill">Free Advisory</span>
+    <span class="announcement-text">Every new engagement starts with a free discovery call.</span>
+    <a class="announcement-link" href="./book-a-consultation/">Book yours &rsaquo;</a>
+  </div>
+</div>
+
+<!-- Main Sticky Header -->
+<header class="barchs-header" id="site-header">
+  <nav class="barchs-nav" aria-label="Main Navigation">
+    <div class="nav-container">
+      
+      <!-- Brand Logo -->
+      <a href="./" class="brand-logo" aria-label="Barchs &ndash; The Business Architects Home">
+        <img src="./assets/logo.png" alt="Barchs &ndash; The Business Architects" width="128" height="36" class="logo-img">
+      </a>
+
+      <!-- Desktop Navigation Menu (Visible on Wide Displays >= 1200px) -->
+      <ul class="nav-menu" id="primary-nav-menu">
+        
+        <!-- 1. Home -->
+        <li class="nav-item">
+          <a href="./" class="nav-link" data-nav="home">
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 10.5L12 3l9 7.5"/>
+              <path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/>
+            </svg>
+            <span class="nav-label">Home</span>
+          </a>
+        </li>
+
+        <!-- 2. Services (Mega Dropdown) -->
+        <li class="nav-item has-dropdown">
+          <a href="./services/" class="nav-link" data-nav="services" aria-haspopup="true" aria-expanded="false">
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"/>
+              <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+            </svg>
+            <span class="nav-label">Services</span>
+            <svg class="nav-caret" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 1 5 5 9 1"/></svg>
+          </a>
+          <div class="dropdown-pane services-mega-dropdown">
+            <div class="dropdown-header">
+              <span class="dropdown-title">Consulting Practices</span>
+              <a href="./services/" class="dropdown-view-all">All 12 Services &rsaquo;</a>
+            </div>
+            <div class="dropdown-grid">
+              <a href="./services/business-consulting/" class="dropdown-card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
+                <div class="card-text"><strong>Business Consulting</strong><span>Diagnostic audits &amp; systems</span></div>
+              </a>
+              <a href="./services/business-growth-strategy/" class="dropdown-card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l6-6 4 4 8-9"/><path d="M15 6h6v6"/></svg></div>
+                <div class="card-text"><strong>Growth Strategy</strong><span>Scaling models &amp; roadmaps</span></div>
+              </a>
+              <a href="./services/sales-consulting/" class="dropdown-card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></div>
+                <div class="card-text"><strong>Sales Consulting</strong><span>Pipeline &amp; funnel design</span></div>
+              </a>
+              <a href="./services/sales-process-optimization/" class="dropdown-card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg></div>
+                <div class="card-text"><strong>Process Optimization</strong><span>Conversion rate velocity</span></div>
+              </a>
+              <a href="./services/lead-generation/" class="dropdown-card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg></div>
+                <div class="card-text"><strong>Lead Generation</strong><span>Qualified commercial inquiries</span></div>
+              </a>
+              <a href="./services/customer-acquisition/" class="dropdown-card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3v9a6 6 0 0 0 12 0V3M6 7h4M14 7h4"/></svg></div>
+                <div class="card-text"><strong>Customer Acquisition</strong><span>Omnichannel CAC:LTV models</span></div>
+              </a>
+              <a href="./services/digital-marketing/" class="dropdown-card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="10" r="8"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+                <div class="card-text"><strong>Digital Marketing</strong><span>Google &amp; LinkedIn campaigns</span></div>
+              </a>
+              <a href="./services/crm-implementation/" class="dropdown-card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+                <div class="card-text"><strong>CRM Implementation</strong><span>Zoho, HubSpot &amp; automation</span></div>
+              </a>
+              <a href="./services/business-process-optimization/" class="dropdown-card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8" stroke-dasharray="3.4 2.6" stroke-width="2.2"/></svg></div>
+                <div class="card-text"><strong>Operations &amp; SOPs</strong><span>Workflow efficiency &amp; scale</span></div>
+              </a>
+              <a href="./services/sales-team-training/" class="dropdown-card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16q6 3 12 0v-4.5"/></svg></div>
+                <div class="card-text"><strong>Sales Team Training</strong><span>Playbooks &amp; deal coaching</span></div>
+              </a>
+              <a href="./services/sales-outsourcing/" class="dropdown-card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 19q0-6 6-6t6 6M16 14q5 0 5 5"/></svg></div>
+                <div class="card-text"><strong>Sales Outsourcing</strong><span>Dedicated SDR &amp; AE pods</span></div>
+              </a>
+              <a href="./services/telesales/" class="dropdown-card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+                <div class="card-text"><strong>Telesales Services</strong><span>Outbound appointment booking</span></div>
+              </a>
+            </div>
+          </div>
+        </li>
+
+        <!-- 3. Industries (Dropdown) -->
+        <li class="nav-item has-dropdown">
+          <a href="./industries/" class="nav-link" data-nav="industries" aria-haspopup="true" aria-expanded="false">
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="7" width="18" height="14" rx="2"/>
+              <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              <line x1="12" y1="11" x2="12" y2="13"/>
+            </svg>
+            <span class="nav-label">Industries</span>
+            <svg class="nav-caret" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 1 5 5 9 1"/></svg>
+          </a>
+          <div class="dropdown-pane industries-dropdown">
+            <div class="dropdown-header">
+              <span class="dropdown-title">Sectors We Serve</span>
+              <a href="./industries/" class="dropdown-view-all">All Industries &rsaquo;</a>
+            </div>
+            <div class="dropdown-grid single-col">
+              <a href="./industries/startups/" class="dropdown-card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3q5 3 5 10l-3 3h-4l-3-3q0-7 5-10z"/><circle cx="12" cy="9" r="1.6"/><path d="M10 16l-1 5M14 16l1 5"/></svg></div>
+                <div class="card-text"><strong>Startups</strong><span>Commercial foundation &amp; sales validation</span></div>
+              </a>
+              <a href="./industries/smes/" class="dropdown-card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M9 8V6h6v2M3 13h18"/></svg></div>
+                <div class="card-text"><strong>Small &amp; Medium Businesses</strong><span>Systematizing founder sales &amp; scaling</span></div>
+              </a>
+              <a href="./industries/established-businesses/" class="dropdown-card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="4" width="10" height="17"/><path d="M9 8h2M9 12h2M10 21v-4h2v4M15 10h4v11M3 21h18"/></svg></div>
+                <div class="card-text"><strong>Established Businesses</strong><span>Modernization &amp; process efficiency</span></div>
+              </a>
+              <a href="./industries/service-businesses/" class="dropdown-card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12l9 5 9-5M3 16l9 5 9-5"/></svg></div>
+                <div class="card-text"><strong>Service-Based Businesses</strong><span>Retainers, SOPs &amp; delivery margins</span></div>
+              </a>
+              <a href="./industries/educational-institutions/" class="dropdown-card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16q6 3 12 0v-4.5"/></svg></div>
+                <div class="card-text"><strong>Educational Institutions</strong><span>Student inquiry &amp; admissions CRM</span></div>
+              </a>
+              <a href="./industries/real-estate/" class="dropdown-card">
+                <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg></div>
+                <div class="card-text"><strong>Real Estate Businesses</strong><span>High-ticket lead gen &amp; broker pipelines</span></div>
+              </a>
+            </div>
+          </div>
+        </li>
+
+        <!-- 4. Our Approach -->
+        <li class="nav-item">
+          <a href="./our-approach/" class="nav-link" data-nav="our-approach">
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"/>
+              <circle cx="12" cy="12" r="5"/>
+              <circle cx="12" cy="12" r="1.5"/>
+            </svg>
+            <span class="nav-label">Our Approach</span>
+          </a>
+        </li>
+
+        <!-- 5. Case Studies -->
+        <li class="nav-item">
+          <a href="./case-studies/" class="nav-link" data-nav="case-studies">
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            <span class="nav-label">Case Studies</span>
+          </a>
+        </li>
+
+        <!-- 6. Insights -->
+        <li class="nav-item">
+          <a href="./insights/" class="nav-link" data-nav="insights">
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
+            <span class="nav-label">Insights</span>
+          </a>
+        </li>
+
+        <!-- 7. About -->
+        <li class="nav-item">
+          <a href="./about/" class="nav-link" data-nav="about">
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <polyline points="9 12 11 14 15 10"/>
+            </svg>
+            <span class="nav-label">About</span>
+          </a>
+        </li>
+
+        <!-- 8. Contact -->
+        <li class="nav-item">
+          <a href="./contact/" class="nav-link" data-nav="contact">
+            <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <span class="nav-label">Contact</span>
+          </a>
+        </li>
+
+      </ul>
+
+      <!-- Header Actions (CTA + Visible Hamburger Button) -->
+      <div class="nav-actions">
+        <a href="./book-a-consultation/" class="nav-cta" data-nav="consultation">
+          <svg class="btn-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+            <circle cx="12" cy="15" r="1.5"/>
+          </svg>
+          <span class="cta-label">Book a Consultation</span>
+        </a>
+
+        <!-- Always-Visible, Beautifully Aligned Hamburger Button -->
+        <button class="nav-toggle" id="nav-toggle-btn" type="button" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-nav-drawer">
+          <span class="nav-toggle-label">Menu</span>
+          <span class="hamburger-box" aria-hidden="true">
+            <span class="hamburger-line line-1"></span>
+            <span class="hamburger-line line-2"></span>
+            <span class="hamburger-line line-3"></span>
+          </span>
+        </button>
+      </div>
+
+    </div>
+  </nav>
+</header>
+
+<!-- Luxury Side Drawer Overlay & Panel (Directly placed in body flow, zero containing-block clipping) -->
+<div class="mobile-drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+<div class="mobile-nav-drawer" id="mobile-nav-drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Site Navigation">
+  <div class="drawer-inner">
+    
+    <!-- Drawer Header -->
+    <div class="drawer-header">
+      <div class="drawer-brand">
+        <img src="./assets/logo.png" alt="Barchs" width="112" height="32" class="drawer-logo-img">
+        <span class="drawer-badge">The Business Architects</span>
+      </div>
+      <button class="drawer-close" id="drawer-close-btn" type="button" aria-label="Close navigation menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Navigation Directory -->
+    <div class="drawer-nav-group">
+      <span class="drawer-group-title">Primary Directory</span>
+      <ul class="drawer-list">
+        
+        <!-- Home -->
+        <li>
+          <a href="./" class="drawer-link drawer-home-link" data-nav="home">
+            <div class="drawer-link-ico-wrap">
+              <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 10.5L12 3l9 7.5"/>
+                <path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/>
+              </svg>
+            </div>
+            <div class="drawer-link-text">
+              <span class="drawer-link-title">Home</span>
+              <span class="drawer-link-desc">Consulting Overview &amp; Diagnostics</span>
+            </div>
+            <span class="drawer-pill-badge">Start</span>
+          </a>
+        </li>
+
+        <!-- Services & Practices (Accordion) -->
+        <li class="drawer-accordion">
+          <button class="drawer-accordion-btn" type="button" aria-expanded="false">
+            <span class="drawer-link-content">
+              <div class="drawer-link-ico-wrap">
+                <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+              </div>
+              <div class="drawer-link-text">
+                <span class="drawer-link-title">Services &amp; Practices</span>
+                <span class="drawer-link-desc">Strategy, Sales &amp; Growth Solutions</span>
+              </div>
+            </span>
+            <span class="drawer-accordion-meta">
+              <span class="drawer-count-badge">12</span>
+              <svg class="accordion-arrow" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 1 5 5 9 1"/></svg>
+            </span>
+          </button>
+          <div class="drawer-sub-menu">
+            <a href="./services/" class="sub-link view-all-link">
+              <span>Explore All 12 Services Overview</span>
+              <span class="sub-arrow">&rsaquo;</span>
+            </a>
+            <div class="drawer-sub-grid">
+              <a href="./services/business-consulting/" class="sub-link">
+                <svg class="sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                <span>Business Consulting</span>
+              </a>
+              <a href="./services/business-growth-strategy/" class="sub-link">
+                <svg class="sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l6-6 4 4 8-9"/><path d="M15 6h6v6"/></svg>
+                <span>Growth Strategy</span>
+              </a>
+              <a href="./services/sales-consulting/" class="sub-link">
+                <svg class="sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                <span>Sales Consulting</span>
+              </a>
+              <a href="./services/sales-process-optimization/" class="sub-link">
+                <svg class="sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+                <span>Process Optimization</span>
+              </a>
+              <a href="./services/lead-generation/" class="sub-link">
+                <svg class="sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>
+                <span>Lead Generation</span>
+              </a>
+              <a href="./services/customer-acquisition/" class="sub-link">
+                <svg class="sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3v9a6 6 0 0 0 12 0V3M6 7h4M14 7h4"/></svg>
+                <span>Customer Acquisition</span>
+              </a>
+              <a href="./services/digital-marketing/" class="sub-link">
+                <svg class="sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="10" r="8"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                <span>Digital Marketing</span>
+              </a>
+              <a href="./services/crm-implementation/" class="sub-link">
+                <svg class="sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                <span>CRM Implementation</span>
+              </a>
+              <a href="./services/business-process-optimization/" class="sub-link">
+                <svg class="sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8" stroke-dasharray="3.4 2.6" stroke-width="2.2"/></svg>
+                <span>Operations &amp; SOPs</span>
+              </a>
+              <a href="./services/sales-team-training/" class="sub-link">
+                <svg class="sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16q6 3 12 0v-4.5"/></svg>
+                <span>Sales Team Training</span>
+              </a>
+              <a href="./services/sales-outsourcing/" class="sub-link">
+                <svg class="sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 19q0-6 6-6t6 6M16 14q5 0 5 5"/></svg>
+                <span>Sales Outsourcing</span>
+              </a>
+              <a href="./services/telesales/" class="sub-link">
+                <svg class="sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+                <div class="card-text"><strong>Telesales Services</strong><span>Outbound appointment booking</span></div>
+              </a>
+            </div>
+          </div>
+        </li>
+
+        <!-- 3. Industries & Sectors (Accordion) -->
+        <li class="drawer-accordion">
+          <button class="drawer-accordion-btn" type="button" aria-expanded="false">
+            <span class="drawer-link-content">
+              <div class="drawer-link-ico-wrap">
+                <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="12" y1="11" x2="12" y2="13"/></svg>
+              </div>
+              <div class="drawer-link-text">
+                <span class="drawer-link-title">Industries &amp; Sectors</span>
+                <span class="drawer-link-desc">Startups, SMEs &amp; Enterprises</span>
+              </div>
+            </span>
+            <span class="drawer-accordion-meta">
+              <span class="drawer-count-badge">6</span>
+              <svg class="accordion-arrow" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 1 5 5 9 1"/></svg>
+            </span>
+          </button>
+          <div class="drawer-sub-menu">
+            <a href="./industries/" class="sub-link view-all-link">
+              <span>All Industry Solutions Overview</span>
+              <span class="sub-arrow">&rsaquo;</span>
+            </a>
+            <div class="drawer-sub-grid">
+              <a href="./industries/startups/" class="sub-link">
+                <svg class="sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3q5 3 5 10l-3 3h-4l-3-3q0-7 5-10z"/><circle cx="12" cy="9" r="1.6"/><path d="M10 16l-1 5M14 16l1 5"/></svg>
+                <span>Startups</span>
+              </a>
+              <a href="./industries/smes/" class="sub-link">
+                <svg class="sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M9 8V6h6v2M3 13h18"/></svg>
+                <span>Small &amp; Medium Businesses</span>
+              </a>
+              <a href="./industries/established-businesses/" class="sub-link">
+                <svg class="sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="4" width="10" height="17"/><path d="M9 8h2M9 12h2M10 21v-4h2v4M15 10h4v11M3 21h18"/></svg>
+                <span>Established Businesses</span>
+              </a>
+              <a href="./industries/service-businesses/" class="sub-link">
+                <svg class="sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12l9 5 9-5M3 16l9 5 9-5"/></svg>
+                <span>Service Businesses</span>
+              </a>
+              <a href="./industries/educational-institutions/" class="sub-link">
+                <svg class="sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16q6 3 12 0v-4.5"/></svg>
+                <span>Educational Institutions</span>
+              </a>
+              <a href="./industries/real-estate/" class="sub-link">
+                <svg class="sub-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10M10 20v-6h4v6"/></svg>
+                <span>Real Estate Businesses</span>
+              </a>
+            </div>
+          </div>
+        </li>
+
+        <!-- Our Approach -->
+        <li>
+          <a href="./our-approach/" class="drawer-link" data-nav="our-approach">
+            <div class="drawer-link-ico-wrap">
+              <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg>
+            </div>
+            <div class="drawer-link-text">
+              <span class="drawer-link-title">Our Approach</span>
+              <span class="drawer-link-desc">4-Step Diagnostic &amp; Execution Framework</span>
+            </div>
+          </a>
+        </li>
+
+        <!-- Case Studies -->
+        <li>
+          <a href="./case-studies/" class="drawer-link" data-nav="case-studies">
+            <div class="drawer-link-ico-wrap">
+              <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <div class="drawer-link-text">
+              <span class="drawer-link-title">Case Studies</span>
+              <span class="drawer-link-desc">Client Transformations &amp; Measurable ROI</span>
+            </div>
+          </a>
+        </li>
+
+        <!-- Testimonials -->
+        <li>
+          <a href="./testimonials/" class="drawer-link" data-nav="testimonials">
+            <div class="drawer-link-ico-wrap">
+              <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            </div>
+            <div class="drawer-link-text">
+              <span class="drawer-link-title">Testimonials</span>
+              <span class="drawer-link-desc">Direct Feedback from Founders &amp; Leaders</span>
+            </div>
+          </a>
+        </li>
+
+        <!-- Insights -->
+        <li>
+          <a href="./insights/" class="drawer-link" data-nav="insights">
+            <div class="drawer-link-ico-wrap">
+              <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            <div class="drawer-link-text">
+              <span class="drawer-link-title">Insights &amp; Articles</span>
+              <span class="drawer-link-desc">15 High-Impact Business Scaling Guides</span>
+            </div>
+          </a>
+        </li>
+
+        <!-- Resources & Tools -->
+        <li>
+          <a href="./resources/" class="drawer-link" data-nav="resources">
+            <div class="drawer-link-ico-wrap">
+              <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><path d="M16 14v4"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+            </div>
+            <div class="drawer-link-text">
+              <span class="drawer-link-title">Resources &amp; Diagnostics</span>
+              <span class="drawer-link-desc">Interactive Audits, Checklists &amp; Calculators</span>
+            </div>
+          </a>
+        </li>
+
+        <!-- About Us -->
+        <li>
+          <a href="./about/" class="drawer-link" data-nav="about">
+            <div class="drawer-link-ico-wrap">
+              <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+            </div>
+            <div class="drawer-link-text">
+              <span class="drawer-link-title">About Barchs</span>
+              <span class="drawer-link-desc">Our Story, Philosophy &amp; Engagement Model</span>
+            </div>
+          </a>
+        </li>
+
+        <!-- Contact -->
+        <li>
+          <a href="./contact/" class="drawer-link" data-nav="contact">
+            <div class="drawer-link-ico-wrap">
+              <svg class="nav-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div class="drawer-link-text">
+              <span class="drawer-link-title">Contact Us</span>
+              <span class="drawer-link-desc">Direct Lines, Email &amp; Office Locations</span>
+            </div>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+
+  </div>
+</div>
+<!-- BARCHS_HEADER_END --><div class="step-pills" id="step-pills-bar">
+          <div class="step-dot active" data-step="0"><span class="num">1</span> Profile</div>
+          <div class="step-dot" data-step="1"><span class="num">2</span> Strategy</div>
+          <div class="step-dot" data-step="2"><span class="num">3</span> Digital</div>
+          <div class="step-dot" data-step="3"><span class="num">4</span> Systems/CRM</div>
+          <div class="step-dot" data-step="4"><span class="num">5</span> Marketing</div>
+          <div class="step-dot" data-step="5"><span class="num">6</span> Automation</div>
+          <div class="step-dot" data-step="6"><span class="num">7</span> Operations</div>
+          <div class="step-dot" data-step="7"><span class="num">8</span> Scalability</div>
+          <div class="step-dot" data-step="8"><span class="num">9</span> Review</div>
+        </div>
+      </div>
+
+      <!-- ==========================================================================
+           STEP 0: BUSINESS PROFILE & BASELINE
+           ========================================================================== -->
+      <section class="step-card active" id="step-0">
+        <div class="step-intro">
+          <span class="pillar-num">Foundation Setup</span>
+          <h2>Organization Baseline & Context</h2>
+          <p>
+            We calibrate our diagnostic benchmarks against your specific industry, team capacity, and commercial stage.
+          </p>
+        </div>
+
+        <form id="profile-form" onsubmit="return false;">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="company-name">Company or Trading Name *</label>
+              <input type="text" id="company-name" class="form-control" placeholder="e.g. Acme Advisory Group" value="Apex Growth Partners" required>
+            </div>
+
+            <div class="form-group">
+              <label for="industry-sector">Industry Sector *</label>
+              <select id="industry-sector" class="form-control" required>
+                <option value="b2b_services" selected>B2B Professional & Consulting Services</option>
+                <option value="real_estate">Real Estate & Property Development</option>
+                <option value="tech_saas">Technology, Software & IT Solutions</option>
+                <option value="ecommerce">E-Commerce & Multi-Channel Retail</option>
+                <option value="healthcare">Healthcare, Wellness & Education</option>
+                <option value="manufacturing">Manufacturing, Trade & Construction</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="team-size">Current Team Headcount *</label>
+              <select id="team-size" class="form-control" required>
+                <option value="1-5">1 – 5 team members (Boutique / Early)</option>
+                <option value="6-20" selected>6 – 20 team members (Emerging SME)</option>
+                <option value="21-50">21 – 50 team members (Growth Stage)</option>
+                <option value="51-200">51 – 200+ team members (Mid-Market)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="revenue-bracket">Annual Revenue Bracket *</label>
+              <select id="revenue-bracket" class="form-control" required>
+                <option value="under_500k">Under $500,000</option>
+                <option value="500k_2m" selected>$500,000 – $2,000,000</option>
+                <option value="2m_10m">$2,000,000 – $10,000,000</option>
+                <option value="above_10m">$10,000,000+</option>
+              </select>
+            </div>
+
+            <div class="form-group full">
+              <label for="primary-objective">Primary 12-Month Strategic Objective *</label>
+              <select id="primary-objective" class="form-control" required>
+                <option value="predictable_leads" selected>Build predictable, high-value customer acquisition channels</option>
+                <option value="fix_operations">Eliminate operational bottlenecks & improve service delivery speed</option>
+                <option value="system_crm">Centralize tech stack & implement a unified CRM / data pipeline</option>
+                <option value="scalability">Prepare business model to scale 2x-3x without proportional overhead</option>
+                <option value="margin_expansion">Protect unit economics & increase average customer lifetime value</option>
+              </select>
+            </div>
+          </div>
+        </form>
+
+        <div class="step-actions">
+          <div></div>
+          <button type="button" class="btn primary" onclick="goToStep(1)">
+            Proceed to Strategy Assessment &rarr;
+          </button>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           STEP 1: PILLAR 1 - BUSINESS STRATEGY & MODEL
+           ========================================================================== -->
+      <section class="step-card" id="step-1">
+        <div class="step-intro">
+          <span class="pillar-num">Pillar 01 / 07</span>
+          <h2>Business Strategy & Model</h2>
+          <p>Assesses value proposition clarity, revenue predictability, and quarterly strategic alignment.</p>
+        </div>
+
+        <div class="question-block" data-pillar="strategy" data-q="q1">
+          <div class="question-title"><span class="q-idx">1.1</span> Value Proposition & Market Positioning</div>
+          <div class="options-grid">
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p1_q1" value="1">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header">
+                  <strong>Ad-Hoc / Generalist</strong>
+                  <span class="maturity-tag maturity-1">Level 1</span>
+                </div>
+                <div class="option-desc">We offer broad services to anyone who asks; our core differentiator is not clearly articulated.</div>
+              </div>
+            </label>
+            <label class="option-card selected" onclick="selectOption(this)">
+              <input type="radio" name="p1_q1" value="2" checked>
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header">
+                  <strong>Developing Differentiation</strong>
+                  <span class="maturity-tag maturity-2">Level 2</span>
+                </div>
+                <div class="option-desc">We know our strengths, but prospects frequently compare us strictly on price against general competitors.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p1_q1" value="3">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header">
+                  <strong>Clearly Positioned Category Specialist</strong>
+                  <span class="maturity-tag maturity-3">Level 3</span>
+                </div>
+                <div class="option-desc">We have a defined target niche and clear commercial reasons why clients select us over alternatives.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p1_q1" value="4">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header">
+                  <strong>Defensible Market Authority</strong>
+                  <span class="maturity-tag maturity-4">Level 4</span>
+                </div>
+                <div class="option-desc">Proprietary IP or dominant positioning allows premium pricing and long-term client lock-in.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="question-block" data-pillar="strategy" data-q="q2">
+          <div class="question-title"><span class="q-idx">1.2</span> Revenue Model & Cashflow Predictability</div>
+          <div class="options-grid">
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p1_q2" value="1">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Lumpy 'Feast-or-Famine'</strong><span class="maturity-tag maturity-1">Level 1</span></div>
+                <div class="option-desc">Revenue swings heavily month to month with zero contracted recurrence or pipeline foresight.</div>
+              </div>
+            </label>
+            <label class="option-card selected" onclick="selectOption(this)">
+              <input type="radio" name="p1_q2" value="2" checked>
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Modest Forward Visibility (30-60 Days)</strong><span class="maturity-tag maturity-2">Level 2</span></div>
+                <div class="option-desc">Repeat clients provide some baseline, but new revenue still requires urgent founder hustling.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p1_q2" value="3">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Structured Retainers / Recurring Contracts</strong><span class="maturity-tag maturity-3">Level 3</span></div>
+                <div class="option-desc">Over 40% of monthly overhead is covered by predictable ongoing agreements or contracted pipelines.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p1_q2" value="4">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>High Predictability & Strong Unit Economics</strong><span class="maturity-tag maturity-4">Level 4</span></div>
+                <div class="option-desc">Forecastable recurring revenue, transparent margins per engagement, and resilient cash buffers.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button type="button" class="btn o" onclick="goToStep(0)">&larr; Previous</button>
+          <button type="button" class="btn primary" onclick="goToStep(2)">Proceed to Digital Presence &rarr;</button>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           STEP 2: PILLAR 2 - DIGITAL PRESENCE & BRAND AUTHORITY
+           ========================================================================== -->
+      <section class="step-card" id="step-2">
+        <div class="step-intro">
+          <span class="pillar-num">Pillar 02 / 07</span>
+          <h2>Digital Presence & Brand Authority</h2>
+          <p>Examines how effectively your website and digital footprint build trust and convert visitors into qualified inquiries.</p>
+        </div>
+
+        <div class="question-block" data-pillar="digital" data-q="q1">
+          <div class="question-title"><span class="q-idx">2.1</span> Website Experience & Conversion Architecture</div>
+          <div class="options-grid">
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p2_q1" value="1">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Static Brochure / Outdated</strong><span class="maturity-tag maturity-1">Level 1</span></div>
+                <div class="option-desc">Our website rarely produces inquiries; it acts only as an online business card when people search our name.</div>
+              </div>
+            </label>
+            <label class="option-card selected" onclick="selectOption(this)">
+              <input type="radio" name="p2_q1" value="2" checked>
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Informative but Passive</strong><span class="maturity-tag maturity-2">Level 2</span></div>
+                <div class="option-desc">Decent visual look, but lacks clear conversion funnels, interactive tools, or tailored landing pages.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p2_q1" value="3">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Active Lead Generator</strong><span class="maturity-tag maturity-3">Level 3</span></div>
+                <div class="option-desc">Clear calls-to-action, high mobile responsiveness, and steady capture of prospect details.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p2_q1" value="4">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>High-Converting Digital Hub</strong><span class="maturity-tag maturity-4">Level 4</span></div>
+                <div class="option-desc">Integrated CRM routing, interactive assessments, case studies, and continuous conversion rate optimization.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="question-block" data-pillar="digital" data-q="q2">
+          <div class="question-title"><span class="q-idx">2.2</span> Search Visibility & Multi-Channel Brand Authority</div>
+          <div class="options-grid">
+            <label class="option-card selected" onclick="selectOption(this)">
+              <input type="radio" name="p2_q2" value="2" checked>
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Occasional / Dependent on Word-of-Mouth</strong><span class="maturity-tag maturity-2">Level 2</span></div>
+                <div class="option-desc">Very little organic discovery; people find us only if they already know our exact business name.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p2_q2" value="3">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Consistent Inbound Footprint</strong><span class="maturity-tag maturity-3">Level 3</span></div>
+                <div class="option-desc">Strong SEO rankings for core keywords, verified Google reviews, and an active industry presence.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p2_q2" value="4">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Omnipresent Industry Thought Leader</strong><span class="maturity-tag maturity-4">Level 4</span></div>
+                <div class="option-desc">Authoritative brand presence, high domain authority, press features, and organic inbound pull.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button type="button" class="btn o" onclick="goToStep(1)">&larr; Previous</button>
+          <button type="button" class="btn primary" onclick="goToStep(3)">Proceed to Software & Systems &rarr;</button>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           STEP 3: PILLAR 3 - SOFTWARE & SYSTEMS (CRM / DATA)
+           ========================================================================== -->
+      <section class="step-card" id="step-3">
+        <div class="step-intro">
+          <span class="pillar-num">Pillar 03 / 07</span>
+          <h2>Business Software & Systems (CRM & Data)</h2>
+          <p>Examines whether your customer data, communication, and reporting live in one unified system or disparate silos.</p>
+        </div>
+
+        <div class="question-block" data-pillar="systems" data-q="q1">
+          <div class="question-title"><span class="q-idx">3.1</span> CRM Maturity & Customer Data Single Source of Truth</div>
+          <div class="options-grid">
+            <label class="option-card" onclick="selectOption(this); toggleConditional('crm-cond', true);">
+              <input type="radio" name="p3_q1" value="1">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Spreadsheets & Inbox Silos</strong><span class="maturity-tag maturity-1">Level 1</span></div>
+                <div class="option-desc">Leads and client notes live scattered across personal emails, Excel files, or WhatsApp chats.</div>
+              </div>
+            </label>
+            <label class="option-card selected" onclick="selectOption(this); toggleConditional('crm-cond', true);">
+              <input type="radio" name="p3_q1" value="2" checked>
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Under-Utilized CRM / Manual Entry</strong><span class="maturity-tag maturity-2">Level 2</span></div>
+                <div class="option-desc">We have a CRM (e.g. HubSpot, Pipedrive, Zoho), but data is irregularly updated and pipelines are incomplete.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this); toggleConditional('crm-cond', false);">
+              <input type="radio" name="p3_q1" value="3">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Standardized Central CRM Platform</strong><span class="maturity-tag maturity-3">Level 3</span></div>
+                <div class="option-desc">All customer touchpoints, stages, deal values, and ownership are tracked cleanly in our system.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this); toggleConditional('crm-cond', false);">
+              <input type="radio" name="p3_q1" value="4">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Fully Integrated Architecture</strong><span class="maturity-tag maturity-4">Level 4</span></div>
+                <div class="option-desc">CRM seamlessly syncs with invoicing, project management, and automated client onboarding pipelines.</div>
+              </div>
+            </label>
+          </div>
+
+          <!-- Dynamic Conditional Question for Low CRM Maturity -->
+          <div class="conditional-box visible" id="crm-cond">
+            <p class="cond-prompt">🔍 Diagnostic Follow-Up: Where is your primary customer friction occurring?</p>
+            <div class="options-grid">
+              <label class="option-card selected" style="padding:10px 14px;" onclick="selectOption(this)">
+                <input type="radio" name="crm_followup" value="lost_leads" checked>
+                <div class="radio-indicator"></div>
+                <div class="option-content"><div class="option-desc"><strong>Leads slipping through cracks:</strong> Inquiries go unanswered or follow-ups are delayed by days.</div></div>
+              </label>
+              <label class="option-card" style="padding:10px 14px;" onclick="selectOption(this)">
+                <input type="radio" name="crm_followup" value="double_entry">
+                <div class="radio-indicator"></div>
+                <div class="option-content"><div class="option-desc"><strong>Duplicate manual entry:</strong> Team copies customer details manually across multiple apps.</div></div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="question-block" data-pillar="systems" data-q="q2">
+          <div class="question-title"><span class="q-idx">3.2</span> Software Integration & Tech Stack Connectedness</div>
+          <div class="options-grid">
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p3_q2" value="1">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Completely Disconnected Apps</strong><span class="maturity-tag maturity-1">Level 1</span></div>
+                <div class="option-desc">Each department uses different software tools that don't exchange data automatically.</div>
+              </div>
+            </label>
+            <label class="option-card selected" onclick="selectOption(this)">
+              <input type="radio" name="p3_q2" value="2" checked>
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Partial Zapier / Manual Bridges</strong><span class="maturity-tag maturity-2">Level 2</span></div>
+                <div class="option-desc">A few rudimentary automations exist, but they frequently break or create sync errors.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p3_q2" value="3">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Connected Operational Stack</strong><span class="maturity-tag maturity-3">Level 3</span></div>
+                <div class="option-desc">Finance, sales, and delivery tools exchange key identifiers and trigger automated hand-offs.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button type="button" class="btn o" onclick="goToStep(2)">&larr; Previous</button>
+          <button type="button" class="btn primary" onclick="goToStep(4)">Proceed to Marketing & Acquisition &rarr;</button>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           STEP 4: PILLAR 4 - MARKETING & CUSTOMER ACQUISITION
+           ========================================================================== -->
+      <section class="step-card" id="step-4">
+        <div class="step-intro">
+          <span class="pillar-num">Pillar 04 / 07</span>
+          <h2>Marketing & Customer Acquisition</h2>
+          <p>Assesses lead generation channel diversity, sales pipeline discipline, and acquisition economics.</p>
+        </div>
+
+        <div class="question-block" data-pillar="marketing" data-q="q1">
+          <div class="question-title"><span class="q-idx">4.1</span> Lead Generation Predictability & Channels</div>
+          <div class="options-grid">
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p4_q1" value="1">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>100% Word-of-Mouth Dependent</strong><span class="maturity-tag maturity-1">Level 1</span></div>
+                <div class="option-desc">If referrals slow down, our pipeline completely dries up. No scalable outbound or digital engine.</div>
+              </div>
+            </label>
+            <label class="option-card selected" onclick="selectOption(this)">
+              <input type="radio" name="p4_q1" value="2" checked>
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Sporadic Campaigning</strong><span class="maturity-tag maturity-2">Level 2</span></div>
+                <div class="option-desc">We experiment with ads, email, or social occasionally, but results are inconsistent and lack predictable ROI.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p4_q1" value="3">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Multi-Channel Structured Acquisition</strong><span class="maturity-tag maturity-3">Level 3</span></div>
+                <div class="option-desc">Inbound search, referral systems, and structured outbound deliver consistent weekly sales opportunities.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p4_q1" value="4">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Predictable Customer Acquisition Engine</strong><span class="maturity-tag maturity-4">Level 4</span></div>
+                <div class="option-desc">We know our Cost per Acquisition (CAC), conversion metrics by channel, and can reliably pour capital in to get clients out.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="question-block" data-pillar="marketing" data-q="q2">
+          <div class="question-title"><span class="q-idx">4.2</span> Sales Process & Pipeline Velocity</div>
+          <div class="options-grid">
+            <label class="option-card selected" onclick="selectOption(this)">
+              <input type="radio" name="p4_q2" value="2" checked>
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Founder-Dependent Selling</strong><span class="maturity-tag maturity-2">Level 2</span></div>
+                <div class="option-desc">Deals close primarily because of the founder's personal charisma; no documented sales playbook.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p4_q2" value="3">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Standardized Sales Methodology</strong><span class="maturity-tag maturity-3">Level 3</span></div>
+                <div class="option-desc">Clear qualification stages, objection playbooks, and standardized proposal turn-around times.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p4_q2" value="4">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>High-Velocity Systematized Sales Team</strong><span class="maturity-tag maturity-4">Level 4</span></div>
+                <div class="option-desc">Trained sales reps consistently hit quota using structured CRM workflows, automated collateral, and fast contracts.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button type="button" class="btn o" onclick="goToStep(3)">&larr; Previous</button>
+          <button type="button" class="btn primary" onclick="goToStep(5)">Proceed to Business Automation &rarr;</button>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           STEP 5: PILLAR 5 - BUSINESS AUTOMATION & AI
+           ========================================================================== -->
+      <section class="step-card" id="step-5">
+        <div class="step-intro">
+          <span class="pillar-num">Pillar 05 / 07</span>
+          <h2>Business Automation & AI</h2>
+          <p>Identifies how much repetitive manual friction drains your team's weekly bandwidth and where workflows can be automated.</p>
+        </div>
+
+        <div class="question-block" data-pillar="automation" data-q="q1">
+          <div class="question-title"><span class="q-idx">5.1</span> Repetitive Manual Workflow Elimination</div>
+          <div class="options-grid">
+            <label class="option-card selected" onclick="selectOption(this); toggleConditional('auto-hours-cond', true);">
+              <input type="radio" name="p5_q1" value="1" checked>
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Heavy Manual Overhead</strong><span class="maturity-tag maturity-1">Level 1</span></div>
+                <div class="option-desc">Staff spend excessive time copying data, creating quotes manually, chasing invoices, and typing status emails.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this); toggleConditional('auto-hours-cond', true);">
+              <input type="radio" name="p5_q1" value="2">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Basic Point-to-Point Automations</strong><span class="maturity-tag maturity-2">Level 2</span></div>
+                <div class="option-desc">Automated email receipts or form notifications exist, but handoffs between staff remain purely manual.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this); toggleConditional('auto-hours-cond', false);">
+              <input type="radio" name="p5_q1" value="3">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Systematic End-to-End Triggers</strong><span class="maturity-tag maturity-3">Level 3</span></div>
+                <div class="option-desc">Customer onboarding, invoice generation, task delegation, and reminders trigger automatically without human effort.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this); toggleConditional('auto-hours-cond', false);">
+              <input type="radio" name="p5_q1" value="4">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>AI-Assisted Operations</strong><span class="maturity-tag maturity-4">Level 4</span></div>
+                <div class="option-desc">AI tools draft responses, summarize meetings, route complex tickets, and run predictive analytics.</div>
+              </div>
+            </label>
+          </div>
+
+          <!-- Dynamic Conditional: Estimate Manual Hours -->
+          <div class="conditional-box visible" id="auto-hours-cond">
+            <p class="cond-prompt">⏱️ Indicative Bottleneck: Approximately how many employee hours per week are lost to repetitive administrative tasks?</p>
+            <div class="options-grid">
+              <label class="option-card" style="padding:10px 14px;" onclick="selectOption(this)">
+                <input type="radio" name="auto_hours" value="10-25">
+                <div class="radio-indicator"></div>
+                <div class="option-content"><div class="option-desc"><strong>10 – 25 hours / week</strong> across the team (~$1,500 monthly drag)</div></div>
+              </label>
+              <label class="option-card selected" style="padding:10px 14px;" onclick="selectOption(this)">
+                <input type="radio" name="auto_hours" value="25-60" checked>
+                <div class="radio-indicator"></div>
+                <div class="option-content"><div class="option-desc"><strong>25 – 60+ hours / week</strong> across the team (Significant operational bottleneck)</div></div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="question-block" data-pillar="automation" data-q="q2">
+          <div class="question-title"><span class="q-idx">5.2</span> Customer Journey & Follow-Up Automation</div>
+          <div class="options-grid">
+            <label class="option-card selected" onclick="selectOption(this)">
+              <input type="radio" name="p5_q2" value="2" checked>
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Delayed or Forgotten Follow-Ups</strong><span class="maturity-tag maturity-2">Level 2</span></div>
+                <div class="option-desc">Follow-up emails happen only when someone remembers to check their sent folder.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p5_q2" value="3">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Automated Multi-Touch Cadences</strong><span class="maturity-tag maturity-3">Level 3</span></div>
+                <div class="option-desc">Prospective leads receive automated nurture sequences; clients get automated milestone notifications.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p5_q2" value="4">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Intelligent Lifecycle Nurturing</strong><span class="maturity-tag maturity-4">Level 4</span></div>
+                <div class="option-desc">Behavioral triggers automatically prompt re-engagement, cross-selling, and satisfaction surveys.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button type="button" class="btn o" onclick="goToStep(4)">&larr; Previous</button>
+          <button type="button" class="btn primary" onclick="goToStep(6)">Proceed to Operations & Workflows &rarr;</button>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           STEP 6: PILLAR 6 - OPERATIONS & WORKFLOW CLARITY
+           ========================================================================== -->
+      <section class="step-card" id="step-6">
+        <div class="step-intro">
+          <span class="pillar-num">Pillar 06 / 07</span>
+          <h2>Operations & Workflow Clarity</h2>
+          <p>Examines standard operating procedures (SOPs), service delivery consistency, and employee onboarding speed.</p>
+        </div>
+
+        <div class="question-block" data-pillar="operations" data-q="q1">
+          <div class="question-title"><span class="q-idx">6.1</span> Process Documentation & Standard Operating Procedures (SOPs)</div>
+          <div class="options-grid">
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p6_q1" value="1">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Tribal Knowledge in Heads</strong><span class="maturity-tag maturity-1">Level 1</span></div>
+                <div class="option-desc">Processes aren't written down; if a key employee leaves, their operational knowledge disappears with them.</div>
+              </div>
+            </label>
+            <label class="option-card selected" onclick="selectOption(this)">
+              <input type="radio" name="p6_q1" value="2" checked>
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Scattered Google Docs</strong><span class="maturity-tag maturity-2">Level 2</span></div>
+                <div class="option-desc">Some checklists and SOPs exist, but they are rarely updated and employees still ask frequent basic questions.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p6_q1" value="3">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Central Living Playbook</strong><span class="maturity-tag maturity-3">Level 3</span></div>
+                <div class="option-desc">Clear, accessible SOPs for all main company workflows with designated process owners and review cycles.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p6_q1" value="4">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Systematized Operating Engine</strong><span class="maturity-tag maturity-4">Level 4</span></div>
+                <div class="option-desc">New team members onboard in days rather than months; delivery error rate is near zero.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="question-block" data-pillar="operations" data-q="q2">
+          <div class="question-title"><span class="q-idx">6.2</span> Service Delivery Quality & Capacity Bottlenecks</div>
+          <div class="options-grid">
+            <label class="option-card selected" onclick="selectOption(this)">
+              <input type="radio" name="p6_q2" value="2" checked>
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Quality Fluctuates With Team Workload</strong><span class="maturity-tag maturity-2">Level 2</span></div>
+                <div class="option-desc">When busy, deadlines slip and minor service mistakes increase because delivery is stretched thin.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p6_q2" value="3">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Predictable Delivery Safeguards</strong><span class="maturity-tag maturity-3">Level 3</span></div>
+                <div class="option-desc">Consistent quality controls, structured milestones, and proactive client status updates.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p6_q2" value="4">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Scalable Factory Precision</strong><span class="maturity-tag maturity-4">Level 4</span></div>
+                <div class="option-desc">Service execution runs with flawless reliability; capacity can be doubled without degrading client satisfaction.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button type="button" class="btn o" onclick="goToStep(5)">&larr; Previous</button>
+          <button type="button" class="btn primary" onclick="goToStep(7)">Proceed to Growth & Scalability &rarr;</button>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           STEP 7: PILLAR 7 - GROWTH READINESS & SCALABILITY
+           ========================================================================== -->
+      <section class="step-card" id="step-7">
+        <div class="step-intro">
+          <span class="pillar-num">Pillar 07 / 07</span>
+          <h2>Growth Readiness & Scalability</h2>
+          <p>Evaluates whether your business structure can absorb a 2x-5x surge in demand without breaking delivery or burning out the team.</p>
+        </div>
+
+        <div class="question-block" data-pillar="growth" data-q="q1">
+          <div class="question-title"><span class="q-idx">7.1</span> Key-Person & Founder Dependency</div>
+          <div class="options-grid">
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p7_q1" value="1">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Heavy Founder Bottleneck</strong><span class="maturity-tag maturity-1">Level 1</span></div>
+                <div class="option-desc">If the founder takes 2 weeks off, sales, key client projects, and major decisions come to a halt.</div>
+              </div>
+            </label>
+            <label class="option-card selected" onclick="selectOption(this)">
+              <input type="radio" name="p7_q1" value="2" checked>
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Partial Delegation with Escalations</strong><span class="maturity-tag maturity-2">Level 2</span></div>
+                <div class="option-desc">Staff handle daily tasks, but key technical decisions and problem-solving still route to leadership.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p7_q1" value="3">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Empowered Operational Leadership</strong><span class="maturity-tag maturity-3">Level 3</span></div>
+                <div class="option-desc">Team leaders own sales, delivery, and support autonomously; founders focus on strategic expansion.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p7_q1" value="4">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Self-Sustaining Enterprise Asset</strong><span class="maturity-tag maturity-4">Level 4</span></div>
+                <div class="option-desc">Independent governance and executive operational models build high enterprise valuation.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="question-block" data-pillar="growth" data-q="q2">
+          <div class="question-title"><span class="q-idx">7.2</span> Surge Capacity (What happens if client volume doubles next month?)</div>
+          <div class="options-grid">
+            <label class="option-card selected" onclick="selectOption(this)">
+              <input type="radio" name="p7_q2" value="2" checked>
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Overwhelming Stress / Delivery Bottleneck</strong><span class="maturity-tag maturity-2">Level 2</span></div>
+                <div class="option-desc">We would have to decline projects or staff would burn out trying to maintain service standards.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p7_q2" value="3">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>Linear Scaling with Onboarding</strong><span class="maturity-tag maturity-3">Level 3</span></div>
+                <div class="option-desc">We could absorb growth by rapidly adding contractors or junior staff via documented training.</div>
+              </div>
+            </label>
+            <label class="option-card" onclick="selectOption(this)">
+              <input type="radio" name="p7_q2" value="4">
+              <div class="radio-indicator"></div>
+              <div class="option-content">
+                <div class="option-header"><strong>High Operating Leverage</strong><span class="maturity-tag maturity-4">Level 4</span></div>
+                <div class="option-desc">Our systems, templates, and automations allow us to double revenue with only modest incremental cost.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button type="button" class="btn o" onclick="goToStep(6)">&larr; Previous</button>
+          <button type="button" class="btn primary" onclick="goToStep(8)">Review Answers & Generate Analysis &rarr;</button>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           STEP 8: ANSWER REVIEW & PRE-FLIGHT AUDIT (Page 7 requirement)
+           ========================================================================== -->
+      <section class="step-card" id="step-8">
+        <div class="step-intro">
+          <span class="pillar-num">Pre-Report Verification</span>
+          <h2>Review & Confirm Your Inputs</h2>
+          <p>
+            Please check your selected ratings across all seven architecture pillars before triggering the analytical engine. You can adjust any category by clicking 'Edit'.
+          </p>
+        </div>
+
+        <div class="review-grid" id="review-cards-container">
+          <!-- Populated dynamically by renderReview() -->
+        </div>
+
+        <div class="disclaimer-box" style="margin-bottom: 24px;">
+          <strong>Diagnostic Methodology Disclosure:</strong> The TBA Architecture Explorer executes an indicative rules-based evaluation using weighted structural dependencies. Calculated scores represent architectural readiness, not certified financial or operational audits.
+        </div>
+
+        <div class="step-actions">
+          <button type="button" class="btn o" onclick="goToStep(7)">&larr; Previous</button>
+          <button type="button" class="btn primary" style="padding:14px 34px; font-size:16px;" onclick="calculateAndDisplayResults()">
+            ⚡ Calculate Business Architecture Health Index &rarr;
+          </button>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           RESULTS DASHBOARD (Page 5 & 6 requirements)
+           ========================================================================== -->
+      <div id="results-dashboard">
+
+        <!-- Report Executive Header -->
+        <div class="report-hero">
+          <div class="report-hero-grid">
+            <div>
+              <div class="report-meta">TBA Business Intelligence Report · Confidential Assessment</div>
+              <h2 id="report-company-title">Apex Growth Partners</h2>
+              <p class="lead-eval" id="report-exec-summary">
+                Your business exhibits a <strong>Developing Architecture (52/100)</strong>. While your market proposition and sales capabilities show traction, disconnected CRM pipelines and high manual administrative overhead create significant operational friction that constrains scalable growth.
+              </p>
+              <div class="report-summary-tags">
+                <span id="rep-tag-industry">🏢 B2B Professional Services</span>
+                <span id="rep-tag-team">👥 6–20 Employees</span>
+                <span id="rep-tag-rev">💰 $500k – $2M Revenue</span>
+                <span id="rep-tag-date">📅 Calculated: November 2026</span>
+              </div>
+            </div>
+
+            <!-- Radial Gauge -->
+            <div class="dial-card">
+              <svg class="score-dial-svg" viewBox="0 0 160 160">
+                <circle class="dial-circle-bg" cx="80" cy="80" r="70" />
+                <circle class="dial-circle-progress" id="dial-progress-circle" cx="80" cy="80" r="70" />
+              </svg>
+              <div class="dial-score-val" id="dial-score-number">
+                52<span>/100</span>
+              </div>
+              <div class="dial-stage-badge" id="dial-stage-text">Emerging Architecture</div>
+              <div class="dial-benchmark-note" id="dial-percentile-text">Top 48th percentile for peer SME stage</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Executive KPI Overview -->
+        <div class="kpi-row">
+          <div class="kpi-box">
+            <span class="kpi-lbl">Architecture Health</span>
+            <strong class="kpi-val" id="kpi-score-display">52 / 100</strong>
+            <p class="kpi-sub">Indicative composite health index</p>
+          </div>
+          <div class="kpi-box">
+            <span class="kpi-lbl">Connected Pillars</span>
+            <strong class="kpi-val" id="kpi-connected-count">3 of 7</strong>
+            <p class="kpi-sub" id="kpi-connected-sub">4 pillars require synchronization</p>
+          </div>
+          <div class="kpi-box">
+            <span class="kpi-lbl">Primary Bottleneck</span>
+            <strong class="kpi-val" id="kpi-bottleneck-title">Automation & CRM</strong>
+            <p class="kpi-sub" id="kpi-bottleneck-sub">~35h lost weekly in manual tasks</p>
+          </div>
+          <div class="kpi-box">
+            <span class="kpi-lbl">Growth Multiplier</span>
+            <strong class="kpi-val" id="kpi-multiplier-val">+38% Capacity</strong>
+            <p class="kpi-sub">Achievable via system integration</p>
+          </div>
+        </div>
+
+        <!-- Section 1: Radar Analysis & Breakdown -->
+        <section class="dash-section">
+          <div class="dash-section-header">
+            <div>
+              <h3>1. Architecture Radar & Pillar Performance</h3>
+              <p>Visualizing capability coverage across all seven dimensions compared to high-performing industry benchmarks.</p>
+            </div>
+            <span class="pill info">Deterministic Algorithm</span>
+          </div>
+
+          <div class="radar-container">
+            <div class="chart-box">
+              <canvas id="architectureRadarChart"></canvas>
+            </div>
+
+            <div class="pillar-bars" id="pillar-bars-container">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 2: Architecture Connectivity Map -->
+        <section class="dash-section">
+          <div class="dash-section-header">
+            <div>
+              <h3>2. Capability Connectivity & Dependency Map</h3>
+              <p>Identifies where workflows exchange real-time data seamlessly versus where disconnects cause lead and operational loss.</p>
+            </div>
+            <span class="pill warning">4 System Disconnects</span>
+          </div>
+
+          <div class="connectivity-grid" id="connectivity-cards-container">
+            <!-- Rendered dynamically -->
+          </div>
+        </section>
+
+        <!-- Section 3: Strengths vs Root Causes -->
+        <section class="dash-section">
+          <div class="dash-section-header">
+            <div>
+              <h3>3. Strengths, Vulnerabilities & Root Causes</h3>
+              <p>Distinguishing your competitive operational foundations from the root causes triggering current growth friction.</p>
+            </div>
+          </div>
+
+          <div class="sw-grid">
+            <div class="sw-col strengths">
+              <h4><span>🟢</span> Identified Commercial Strengths</h4>
+              <ul class="sw-list" id="strengths-list-container">
+                <!-- Rendered dynamically -->
+              </ul>
+            </div>
+
+            <div class="sw-col weaknesses">
+              <h4><span>🔴</span> Critical Bottlenecks & Root Causes</h4>
+              <ul class="sw-list" id="weaknesses-list-container">
+                <!-- Rendered dynamically -->
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 4: Prioritized Action Roadmap Matrix -->
+        <section class="dash-section">
+          <div class="dash-section-header">
+            <div>
+              <h3>4. Prioritized Action Matrix (Urgency vs. Impact)</h3>
+              <p>A sequenced roadmap of high-ROI interventions ordered by immediate urgency and implementation feasibility.</p>
+            </div>
+            <div class="roadmap-tabs">
+              <button class="tab-btn active" onclick="switchRoadmapTab('30days', this)">0–30 Days (Quick Wins)</button>
+              <button class="tab-btn" onclick="switchRoadmapTab('90days', this)">30–90 Days (Foundations)</button>
+              <button class="tab-btn" onclick="switchRoadmapTab('180days', this)">90–180 Days (Strategic Scale)</button>
+            </div>
+          </div>
+
+          <div class="action-cards" id="action-cards-container">
+            <!-- Rendered dynamically based on tab -->
+          </div>
+        </section>
+
+        <!-- Section 5: Interactive Sensitivity Simulator -->
+        <section class="dash-section">
+          <div class="dash-section-header">
+            <div>
+              <h3>5. "What-If" Sensitivity & Optimization Simulator</h3>
+              <p>Simulate how addressing specific bottleneck areas elevates your overall Architecture Health Index and operational throughput.</p>
+            </div>
+            <span class="pill success">Interactive Model</span>
+          </div>
+
+          <div class="simulator-wrap">
+            <div class="sim-slider-row">
+              <label for="sim-crm">Upgrade CRM & Systems:</label>
+              <input type="range" id="sim-crm" min="0" max="35" value="18" oninput="runSensitivitySimulation()">
+              <span class="sim-val" id="sim-crm-val">+18 pts</span>
+            </div>
+            <div class="sim-slider-row">
+              <label for="sim-auto">Automate Repetitive Workflows:</label>
+              <input type="range" id="sim-auto" min="0" max="35" value="22" oninput="runSensitivitySimulation()">
+              <span class="sim-val" id="sim-auto-val">+22 pts</span>
+            </div>
+            <div class="sim-slider-row">
+              <label for="sim-ops">Standardize SOPs & Training:</label>
+              <input type="range" id="sim-ops" min="0" max="30" value="15" oninput="runSensitivitySimulation()">
+              <span class="sim-val" id="sim-ops-val">+15 pts</span>
+            </div>
+
+            <div class="sim-output-box">
+              <div>
+                <strong style="font-family:var(--fh); font-size:16px; color:var(--ink);">Projected Architecture Health Index:</strong>
+                <p style="font-size:13px; color:var(--mu);">Estimated uplift after structured system implementation</p>
+              </div>
+              <div style="text-align:right;">
+                <span style="font-family:var(--fh); font-size:28px; font-weight:800; color:var(--cobalt);" id="sim-projected-score">76 / 100</span>
+                <span class="pill success" style="margin-left:8px;" id="sim-projected-badge">Structured Enterprise</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 6: Relevant TBA Service Capabilities -->
+        <section class="dash-section">
+          <div class="dash-section-header">
+            <div>
+              <h3>6. Recommended TBA Capabilities & Next Steps</h3>
+              <p>Targeted solutions from The Business Architects specifically configured to solve your identified architecture gaps.</p>
+            </div>
+          </div>
+
+          <div class="services-match-grid" id="tba-services-container">
+            <!-- Populated dynamically based on lowest scoring pillars -->
+          </div>
+        </section>
+
+        <!-- Executive Actions Bar -->
+        <div class="report-actions-bar">
+          <button class="btn primary" onclick="window.print()">
+            🖨️ Print / Save Executive PDF
+          </button>
+          <button class="btn dark" onclick="downloadDiagnosticJSON()">
+            💾 Export Diagnostic Report (.JSON)
+          </button>
+          <button class="btn" onclick="openConsultationModal()">
+            🤝 Book Strategy Discovery Call
+          </button>
+          <button class="btn o" onclick="retakeAssessment()">
+            🔄 Retake Diagnostic
+          </button>
+        </div>
+
+        <!-- Data Transparency Notice -->
+        <div class="disclaimer-box">
+          <strong>Transparency & Methodology Statement:</strong> This evaluation combines self-reported operational practices across 7 core dimensions with TBA's proprietary business architecture scoring algorithm. Calculations distinguish verified operational data from indicative estimates. For bespoke architecture roadmaps, technical validation, or hands-on implementation, schedule a discovery call with a TBA architect.
+        </div>
+
+      </div> <!-- End #results-dashboard -->
+
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       CONSULTATION MODAL (Pre-populated with diagnostic context)
+       ========================================================================== -->
+  <div class="modal-overlay" id="consult-modal" onclick="if(event.target===this) closeConsultationModal()">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeConsultationModal()" aria-label="Close modal">&times;</button>
+      <div class="ey">TBA Free Discovery Call</div>
+      <h3 style="font-family:var(--fh); font-size:24px; font-weight:800; margin-bottom:8px; color:var(--ink);">Schedule Architecture Strategy Session</h3>
+      <p style="font-size:14px; color:var(--mu); margin-bottom:20px;">
+        Review your diagnostic results with a Senior Business Architect. We will walk through your identified bottlenecks and provide an implementation roadmap.
+      </p>
+
+      <form id="consult-form" onsubmit="submitConsultation(event)">
+        <div class="form-group" style="margin-bottom:12px;">
+          <label>Company Name</label>
+          <input type="text" id="modal-company" class="form-control" required>
+        </div>
+        <div class="form-group" style="margin-bottom:12px;">
+          <label>Your Name</label>
+          <input type="text" id="modal-name" class="form-control" placeholder="e.g. Sarah Jenkins" required>
+        </div>
+        <div class="form-group" style="margin-bottom:12px;">
+          <label>Business Email</label>
+          <input type="email" id="modal-email" class="form-control" placeholder="sarah@company.com" required>
+        </div>
+        <div class="form-group" style="margin-bottom:16px;">
+          <label>Diagnostic Health Score Attached</label>
+          <input type="text" id="modal-score" class="form-control" style="background:#f4f2ff; font-weight:700;" readonly>
+        </div>
+        <button type="submit" class="btn primary" style="width:100%; padding:14px; font-size:15px;" id="modal-submit-btn">
+          Confirm Strategy Session Request &rarr;
+        </button>
+      </form>
+      <div id="modal-success-msg" style="display:none; text-align:center; padding:20px 0;">
+        <div style="font-size:36px; margin-bottom:8px;">✅</div>
+        <h4 style="font-family:var(--fh); font-size:20px; font-weight:800; color:var(--ink);">Request Received</h4>
+        <p style="font-size:14px; color:var(--mu); margin-top:6px;">
+          Our strategy team will review your architecture profile and email confirmation within 1 business day.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="w">
+      <div>
+        <h4>Barchs – The Business Architects</h4>
+        <p>Connecting business strategy, software architecture, marketing automation, and operational execution for scalable enterprise growth.</p>
+      </div>
+      <div>
+        <h4>Connected Services</h4>
+        <ul>
+          <li><a href="index.html#services">Business Consulting</a></li>
+          <li><a href="index.html#services">CRM Implementation</a></li>
+          <li><a href="index.html#services">Sales Process Optimization</a></li>
+          <li><a href="index.html#services">Business Process Automation</a></li>
+          <li><a href="index.html#services">Digital Marketing & Growth</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Intelligence Centre</h4>
+        <ul>
+          <li><a href="business-architecture-explorer.html">Business Architecture Explorer</a></li>
+          <li><a href="index.html#why">Connected Growth Methodology</a></li>
+          <li><a href="index.html#faq">Diagnostic FAQs</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get in Touch</h4>
+        <p>Book a free 30-minute discovery consultation to architect your growth roadmap.</p>
+        <button class="btn sm" style="margin-top:12px;" onclick="openConsultationModal()">Book Discovery Call</button>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>&copy; 2026 Barchs – The Business Architects. All rights reserved.</div>
+      <div>
+        <a href="index.html">Home</a> &nbsp;·&nbsp;
+        <a href="index.html#contact">Privacy Policy</a> &nbsp;·&nbsp;
+        <a href="index.html#contact">Terms of Engagement</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       DIAGNOSTIC ENGINE & INTERACTIVITY JAVASCRIPT
+       ========================================================================== -->
+  <script>
+    // Global State
+    const TOTAL_STEPS = 9; // Step 0 to 8
+    let currentStep = 0;
+    let radarChartInstance = null;
+    let diagnosticResults = null;
+
+    const PILLAR_NAMES = {
+      strategy: "Business Strategy & Model",
+      digital: "Digital Presence & Authority",
+      systems: "Software & Systems (CRM/Data)",
+      marketing: "Marketing & Acquisition",
+      automation: "Business Automation & AI",
+      operations: "Operations & Workflows",
+      growth: "Growth & Scalability"
+    };
+
+    const STEP_NAMES = [
+      "Step 1: Business Profile & Baseline",
+      "Step 2: Business Strategy & Model",
+      "Step 3: Digital Presence & Brand Authority",
+      "Step 4: Software & Systems (CRM / Data)",
+      "Step 5: Marketing & Customer Acquisition",
+      "Step 6: Business Automation & AI",
+      "Step 7: Operations & Workflow Clarity",
+      "Step 8: Growth Readiness & Scalability",
+      "Step 9: Answer Review & Audit"
+    ];
+
+    // Navigation function
+    function goToStep(stepIndex) {
+      if (stepIndex < 0 || stepIndex >= TOTAL_STEPS) return;
+
+      // Validate Profile on step 0
+      if (currentStep === 0 && stepIndex > 0) {
+        const cname = document.getElementById('company-name').value.trim();
+        if (!cname) {
+          alert('Please enter your company or trading name to proceed.');
+          document.getElementById('company-name').focus();
+          return;
+        }
+      }
+
+      // Hide all steps
+      for (let i = 0; i < TOTAL_STEPS; i++) {
+        const stepEl = document.getElementById(`step-${i}`);
+        if (stepEl) stepEl.classList.remove('active');
+      }
+
+      // Show target step
+      const targetEl = document.getElementById(`step-${stepIndex}`);
+      if (targetEl) targetEl.classList.add('active');
+
+      // Update stepper
+      currentStep = stepIndex;
+      updateStepperUI();
+
+      // If entering review step (8), render review cards
+      if (stepIndex === 8) {
+        renderReviewCards();
+      }
+
+      // Scroll smoothly to top of tool
+      document.getElementById('stepper-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function updateStepperUI() {
+      const titleEl = document.getElementById('step-title-display');
+      const countEl = document.getElementById('step-count-display');
+      const fillEl = document.getElementById('progress-fill-bar');
+
+      titleEl.textContent = STEP_NAMES[currentStep];
+      countEl.textContent = `Step ${currentStep + 1} of ${TOTAL_STEPS}`;
+
+      const pct = Math.round(((currentStep + 1) / TOTAL_STEPS) * 100);
+      fillEl.style.width = `${pct}%`;
+
+      // Update dot pills
+      const dots = document.querySelectorAll('.step-dot');
+      dots.forEach((dot, idx) => {
+        dot.classList.remove('active', 'completed');
+        if (idx === currentStep) {
+          dot.classList.add('active');
+        } else if (idx < currentStep) {
+          dot.classList.add('completed');
+        }
+      });
+    }
+
+    // Step dots click handler
+    document.querySelectorAll('.step-dot').forEach(dot => {
+      dot.addEventListener('click', function() {
+        const targetStep = parseInt(this.getAttribute('data-step'), 10);
+        // Allow going back, or advancing if profile completed
+        if (targetStep < currentStep || (targetStep <= currentStep + 1)) {
+          goToStep(targetStep);
+        }
+      });
+    });
+
+    // Option selection helper
+    function selectOption(labelEl) {
+      const radio = labelEl.querySelector('input[type="radio"]');
+      if (!radio) return;
+      radio.checked = true;
+
+      // Unselect siblings
+      const parentGrid = labelEl.closest('.options-grid');
+      if (parentGrid) {
+        parentGrid.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
+      }
+      labelEl.classList.add('selected');
+    }
+
+    // Toggle conditional block
+    function toggleConditional(boxId, show) {
+      const box = document.getElementById(boxId);
+      if (box) {
+        if (show) {
+          box.classList.add('visible');
+        } else {
+          box.classList.remove('visible');
+        }
+      }
+    }
+
+    // Render Review Cards for Step 8
+    function renderReviewCards() {
+      const container = document.getElementById('review-cards-container');
+      container.innerHTML = '';
+
+      const pillars = [
+        { id: 'strategy', name: 'Strategy & Model', step: 1, q: 'p1_q1' },
+        { id: 'digital', name: 'Digital Presence', step: 2, q: 'p2_q1' },
+        { id: 'systems', name: 'Systems & CRM', step: 3, q: 'p3_q1' },
+        { id: 'marketing', name: 'Marketing & Sales', step: 4, q: 'p4_q1' },
+        { id: 'automation', name: 'Automation & AI', step: 5, q: 'p5_q1' },
+        { id: 'operations', name: 'Operations & SOPs', step: 6, q: 'p6_q1' },
+        { id: 'growth', name: 'Growth Scalability', step: 7, q: 'p7_q1' }
+      ];
+
+      pillars.forEach(p => {
+        const selectedRadio = document.querySelector(`input[name="${p.q}"]:checked`);
+        let ratingText = "Level 2 (Developing)";
+        if (selectedRadio) {
+          const card = selectedRadio.closest('.option-card');
+          if (card) {
+            const strong = card.querySelector('strong');
+            if (strong) ratingText = strong.textContent;
+          }
+        }
+
+        const div = document.createElement('div');
+        div.className = 'review-item';
+        div.innerHTML = `
+          <h4>
+            ${p.name}
+            <span class="edit-link" onclick="goToStep(${p.step})">Edit</span>
+          </h4>
+          <p><strong>Selected:</strong> ${ratingText}</p>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // ==========================================================================
+    // DETERMINISTIC SCORING & ANALYSIS ENGINE
+    // ==========================================================================
+    function calculateAndDisplayResults() {
+      // 1. Collect profile inputs
+      const companyName = document.getElementById('company-name').value.trim() || 'Apex Growth Partners';
+      const industry = document.getElementById('industry-sector').value;
+      const teamSize = document.getElementById('team-size').value;
+      const revenue = document.getElementById('revenue-bracket').value;
+      const objective = document.getElementById('primary-objective').value;
+
+      // 2. Score the 7 pillars
+      // Each pillar has 2 core diagnostic questions scoring 1..4 pts each (max 8)
+      // Normalized to 0..100%
+      function getScore(q1Name, q2Name) {
+        const v1 = parseInt((document.querySelector(`input[name="${q1Name}"]:checked`) || {}).value || '2', 10);
+        const v2 = parseInt((document.querySelector(`input[name="${q2Name}"]:checked`) || {}).value || '2', 10);
+        const raw = v1 + v2; // 2..8
+        return Math.round(((raw - 2) / 6) * 100);
+      }
+
+      const pScores = {
+        strategy: getScore('p1_q1', 'p1_q2'),
+        digital: getScore('p2_q1', 'p2_q2'),
+        systems: getScore('p3_q1', 'p3_q2'),
+        marketing: getScore('p4_q1', 'p4_q2'),
+        automation: getScore('p5_q1', 'p5_q2'),
+        operations: getScore('p6_q1', 'p6_q2'),
+        growth: getScore('p7_q1', 'p7_q2')
+      };
+
+      // Composite Weighted Overall Score
+      // Strategy (15%), Systems (20%), Automation (15%), Marketing (15%), Operations (15%), Digital (10%), Growth (10%)
+      const overallScore = Math.round(
+        pScores.strategy * 0.15 +
+        pScores.systems * 0.20 +
+        pScores.automation * 0.15 +
+        pScores.marketing * 0.15 +
+        pScores.operations * 0.15 +
+        pScores.digital * 0.10 +
+        pScores.growth * 0.10
+      );
+
+      // Classification & Tier
+      let stageName = "Fragmented Architecture";
+      let stageDesc = "High vulnerability and operational friction. Systems are siloed, creating severe key-person dependency and erratic sales pipelines.";
+      if (overallScore >= 80) {
+        stageName = "Architected Enterprise";
+        stageDesc = "Integrated software stack, automated client handoffs, robust unit economics, and resilient scalability.";
+      } else if (overallScore >= 60) {
+        stageName = "Structured Architecture";
+        stageDesc = "Solid foundation with predictable core delivery. Ready for cross-system automation and multi-channel acquisition scale.";
+      } else if (overallScore >= 40) {
+        stageName = "Emerging Architecture";
+        stageDesc = "Foundations exist and client demand is active, but manual workarounds, disjointed apps, and lack of SOPs restrict scaling.";
+      }
+
+      // Sort pillars by score
+      const sortedPillars = Object.keys(pScores).map(key => ({
+        key,
+        name: PILLAR_NAMES[key],
+        score: pScores[key]
+      })).sort((a, b) => a.score - b.score);
+
+      const lowestPillars = sortedPillars.slice(0, 3);
+      const highestPillars = sortedPillars.slice(-2);
+
+      // Connected vs Disconnected
+      const connectedCount = sortedPillars.filter(p => p.score >= 55).length;
+      const disconnectedCount = 7 - connectedCount;
+
+      // Store in memory
+      diagnosticResults = {
+        companyName,
+        industry,
+        teamSize,
+        revenue,
+        objective,
+        pScores,
+        overallScore,
+        stageName,
+        stageDesc,
+        lowestPillars,
+        highestPillars,
+        connectedCount,
+        disconnectedCount,
+        timestamp: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+      };
+
+      // 3. Render Dashboard UI Elements
+      renderDashboardUI();
+
+      // 4. Hide Stepper & Steps, Show Dashboard
+      document.getElementById('stepper-container').style.display = 'none';
+      for (let i = 0; i < TOTAL_STEPS; i++) {
+        const el = document.getElementById(`step-${i}`);
+        if (el) el.style.display = 'none';
+      }
+      const dash = document.getElementById('results-dashboard');
+      dash.classList.add('active');
+
+      // Smooth scroll to top of dashboard
+      dash.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function renderDashboardUI() {
+      const data = diagnosticResults;
+
+      // Executive Header
+      document.getElementById('report-company-title').textContent = data.companyName;
+      document.getElementById('report-exec-summary').innerHTML = `
+        Your business exhibits an <strong>${data.stageName} (${data.overallScore}/100)</strong>. 
+        ${data.stageDesc} Your primary bottlenecks center on <strong>${data.lowestPillars[0].name}</strong> and <strong>${data.lowestPillars[1].name}</strong>.
+      `;
+      document.getElementById('rep-tag-industry').textContent = `🏢 ${document.getElementById('industry-sector').selectedOptions[0].text}`;
+      document.getElementById('rep-tag-team').textContent = `👥 ${document.getElementById('team-size').selectedOptions[0].text.split('(')[0]}`;
+      document.getElementById('rep-tag-rev').textContent = `💰 Revenue: ${document.getElementById('revenue-bracket').selectedOptions[0].text}`;
+      document.getElementById('rep-tag-date').textContent = `📅 Evaluated: ${data.timestamp}`;
+
+      // Dial Gauge
+      const scoreCircle = document.getElementById('dial-progress-circle');
+      const circumference = 2 * Math.PI * 70; // 439.8
+      const offset = circumference - (circumference * (data.overallScore / 100));
+      scoreCircle.style.strokeDasharray = `${circumference}`;
+      setTimeout(() => {
+        scoreCircle.style.strokeDashoffset = `${offset}`;
+      }, 100);
+
+      document.getElementById('dial-score-number').innerHTML = `${data.overallScore}<span>/100</span>`;
+      document.getElementById('dial-stage-text').textContent = data.stageName;
+
+      // KPIs
+      document.getElementById('kpi-score-display').textContent = `${data.overallScore} / 100`;
+      document.getElementById('kpi-connected-count').textContent = `${data.connectedCount} of 7`;
+      document.getElementById('kpi-connected-sub').textContent = `${data.disconnectedCount} pillars require synchronization`;
+      document.getElementById('kpi-bottleneck-title').textContent = data.lowestPillars[0].name.split('(')[0];
+
+      // Render Pillar Bars
+      const barsContainer = document.getElementById('pillar-bars-container');
+      barsContainer.innerHTML = '';
+      Object.keys(PILLAR_NAMES).forEach(key => {
+        const score = data.pScores[key];
+        let statusBadge = score >= 70 ? '<span class="pill success">Optimal</span>' :
+                          score >= 50 ? '<span class="pill warning">Developing</span>' :
+                                        '<span class="pill danger">Bottleneck</span>';
+
+        const barDiv = document.createElement('div');
+        barDiv.className = 'bar-item';
+        barDiv.innerHTML = `
+          <div class="bar-info">
+            <span>${PILLAR_NAMES[key]}</span>
+            <div>${statusBadge} &nbsp;<span class="bar-val">${score}%</span></div>
+          </div>
+          <div class="bar-track">
+            <div class="bar-progress" style="width: ${score}%;"></div>
+          </div>
+        `;
+        barsContainer.appendChild(barDiv);
+      });
+
+      // Render Radar Chart with Chart.js
+      renderRadarChart(data.pScores);
+
+      // Render Connectivity Cards
+      renderConnectivityCards(data.pScores);
+
+      // Render Strengths vs Weaknesses
+      renderStrengthsAndWeaknesses(data);
+
+      // Render Roadmap
+      renderRoadmap('30days');
+
+      // Render TBA Service Matches
+      renderTBAServices(data.lowestPillars);
+
+      // Update Consultation Modal pre-fill
+      document.getElementById('modal-company').value = data.companyName;
+      document.getElementById('modal-score').value = `${data.overallScore}/100 (${data.stageName})`;
+    }
+
+    function renderRadarChart(pScores) {
+      const ctx = document.getElementById('architectureRadarChart').getContext('2d');
+      if (radarChartInstance) {
+        radarChartInstance.destroy();
+      }
+
+      radarChartInstance = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: [
+            ['Business', 'Strategy'],
+            ['Digital', 'Presence'],
+            ['Software', '& Systems'],
+            ['Marketing', '& Sales'],
+            ['Automation', '& AI'],
+            ['Operations', '& SOPs'],
+            ['Growth', 'Readiness']
+          ],
+          datasets: [
+            {
+              label: 'Your Business Score',
+              data: [
+                pScores.strategy,
+                pScores.digital,
+                pScores.systems,
+                pScores.marketing,
+                pScores.automation,
+                pScores.operations,
+                pScores.growth
+              ],
+              backgroundColor: 'rgba(35, 71, 255, 0.22)',
+              borderColor: '#2347ff',
+              borderWidth: 2.5,
+              pointBackgroundColor: '#d7f205',
+              pointBorderColor: '#070f3d',
+              pointHoverRadius: 6
+            },
+            {
+              label: 'Top 10% Industry Benchmark',
+              data: [85, 80, 85, 80, 85, 90, 85],
+              backgroundColor: 'transparent',
+              borderColor: 'rgba(11, 31, 75, 0.25)',
+              borderWidth: 1.5,
+              borderDash: [4, 4],
+              pointRadius: 0
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              min: 0,
+              max: 100,
+              ticks: { display: false, stepSize: 20 },
+              grid: { color: 'rgba(7, 15, 61, 0.08)' },
+              angleLines: { color: 'rgba(7, 15, 61, 0.1)' },
+              pointLabels: {
+                font: {
+                  family: '"Bricolage Grotesque", sans-serif',
+                  size: 11,
+                  weight: '700'
+                },
+                color: '#070f3d'
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                font: { family: '"DM Sans", sans-serif', size: 12 },
+                color: '#4f5478'
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function renderConnectivityCards(scores) {
+      const container = document.getElementById('connectivity-cards-container');
+      container.innerHTML = '';
+
+      const connections = [
+        {
+          name: "Marketing & CRM Pipeline Connection",
+          source: "Marketing & Acquisition",
+          target: "Software & Systems (CRM)",
+          status: (scores.marketing >= 60 && scores.systems >= 60) ? "connected" : (scores.systems < 40 ? "disconnected" : "partial"),
+          desc: scores.systems < 40 
+            ? "Leads are acquired but not systematically registered in a centralized CRM, causing prospect drop-off."
+            : "Inquiries sync cleanly into automated pipeline stages with immediate sales assignment."
+        },
+        {
+          name: "CRM to Operations & Delivery Handoff",
+          source: "Software & Systems",
+          target: "Operations & Workflows",
+          status: (scores.systems >= 60 && scores.operations >= 60) ? "connected" : "disconnected",
+          desc: (scores.systems < 50 || scores.operations < 50)
+            ? "Manual briefing between sales and service delivery creates duplicate effort and client onboarding delays."
+            : "Closed-won deals trigger automated client workspaces, onboarding sequences, and project tasks."
+        },
+        {
+          name: "Automation Loops across Operations",
+          source: "Business Automation & AI",
+          target: "Operations & SOPs",
+          status: scores.automation >= 60 ? "connected" : (scores.automation < 40 ? "disconnected" : "partial"),
+          desc: scores.automation < 40
+            ? "High manual intervention across invoices, reminders, and data syncing drains ~30+ team hours weekly."
+            : "Event-driven webhooks and automated status alerts eliminate repetitive administrative drag."
+        },
+        {
+          name: "Strategy to Growth Readiness Bridge",
+          source: "Business Strategy",
+          target: "Growth & Scalability",
+          status: (scores.strategy >= 65 && scores.growth >= 65) ? "connected" : "partial",
+          desc: "Strategic goals are clearly tied to surge capacity planning and leadership delegation protocols."
+        }
+      ];
+
+      connections.forEach(c => {
+        const div = document.createElement('div');
+        div.className = 'conn-card';
+        div.innerHTML = `
+          <div class="conn-header">
+            <strong>${c.name}</strong>
+            <span class="status-dot ${c.status}" title="${c.status.toUpperCase()}"></span>
+          </div>
+          <div class="conn-links">
+            Between: <b>${c.source}</b> &harr; <b>${c.target}</b>
+          </div>
+          <div class="conn-status-row">
+            <span class="pill ${c.status === 'connected' ? 'success' : (c.status === 'partial' ? 'warning' : 'danger')}">
+              ${c.status === 'connected' ? 'Connected' : (c.status === 'partial' ? 'Partially Linked' : 'Disconnected Silo')}
+            </span>
+          </div>
+          <p style="font-size:13px; color:var(--mu);">${c.desc}</p>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function renderStrengthsAndWeaknesses(data) {
+      const sContainer = document.getElementById('strengths-list-container');
+      const wContainer = document.getElementById('weaknesses-list-container');
+      sContainer.innerHTML = '';
+      wContainer.innerHTML = '';
+
+      // Strengths
+      data.highestPillars.forEach(p => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <strong>${p.name} (${p.score}% Readiness)</strong>
+          <small>Established capability providing solid commercial baseline for current revenue generation.</small>
+        `;
+        sContainer.appendChild(li);
+      });
+      const extraStrength = document.createElement('li');
+      extraStrength.innerHTML = `
+        <strong>Committed Client Value Proposition</strong>
+        <small>Target client market acknowledges core capability; strong qualitative reputation in existing accounts.</small>
+      `;
+      sContainer.appendChild(extraStrength);
+
+      // Weaknesses & Root Causes
+      data.lowestPillars.forEach(p => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <strong>${p.name} Bottleneck (${p.score}% Readiness)</strong>
+          <small><strong>Root Cause:</strong> Absence of unified system integration and documented standard procedures causes friction as volume expands.</small>
+        `;
+        wContainer.appendChild(li);
+      });
+    }
+
+    // Roadmap Tabs
+    function switchRoadmapTab(tabKey, btnEl) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+      renderRoadmap(tabKey);
+    }
+
+    function renderRoadmap(tabKey) {
+      const container = document.getElementById('action-cards-container');
+      container.innerHTML = '';
+
+      const actions = {
+        '30days': [
+          {
+            num: "01",
+            title: "Implement Centralized CRM Single-Source-of-Truth",
+            desc: "Migrate client data from inboxes and spreadsheets into a standardized CRM pipeline with mandatory qualification stages.",
+            impact: "High Impact",
+            urgency: "Immediate (Week 1–2)",
+            effort: "Low Effort"
+          },
+          {
+            num: "02",
+            title: "Automate Lead Response & Booking Cadence",
+            desc: "Set up instant SMS/email confirmation loops and automated calendar booking to drop lead response time under 15 minutes.",
+            impact: "High Impact",
+            urgency: "Week 2–3",
+            effort: "Quick Win"
+          },
+          {
+            num: "03",
+            title: "Audit Top 3 Manual Administrative Time-Wasters",
+            desc: "Log repetitive data entry across invoicing and delivery; deploy Zapier / API webhooks to recover 10-15h weekly.",
+            impact: "Medium Impact",
+            urgency: "Week 3–4",
+            effort: "Low Effort"
+          }
+        ],
+        '90days': [
+          {
+            num: "04",
+            title: "Codify Service Delivery SOPs & Client Onboarding Portal",
+            desc: "Document core fulfillment steps into a living team playbook to decrease new employee ramp-up time by 50%.",
+            impact: "High Impact",
+            urgency: "Month 2",
+            effort: "Medium Effort"
+          },
+          {
+            num: "05",
+            title: "Launch Structured Multi-Channel Acquisition Campaign",
+            desc: "Diversify beyond referrals by testing dedicated landing pages paired with targeted outbound or paid search.",
+            impact: "High Impact",
+            urgency: "Month 2–3",
+            effort: "Medium Effort"
+          }
+        ],
+        '180days': [
+          {
+            num: "06",
+            title: "Surge Capacity & Leadership Delegation Architecture",
+            desc: "Establish operational tier management, cross-departmental SLAs, and client lifetime value optimization programs.",
+            impact: "Enterprise Value",
+            urgency: "Month 4–6",
+            effort: "Strategic"
+          }
+        ]
+      };
+
+      const currentActions = actions[tabKey] || actions['30days'];
+      currentActions.forEach(a => {
+        const div = document.createElement('div');
+        div.className = 'action-card';
+        div.innerHTML = `
+          <div class="action-priority-icon">${a.num}</div>
+          <div class="action-body">
+            <strong>${a.title}</strong>
+            <p>${a.desc}</p>
+          </div>
+          <div class="action-meta">
+            <span class="pill ${a.impact === 'High Impact' ? 'danger' : 'info'}">${a.impact}</span>
+            <span style="font-size:12px; font-weight:700; color:var(--mu);">${a.urgency}</span>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // Sensitivity Simulator
+    function runSensitivitySimulation() {
+      const crmAdd = parseInt(document.getElementById('sim-crm').value, 10);
+      const autoAdd = parseInt(document.getElementById('sim-auto').value, 10);
+      const opsAdd = parseInt(document.getElementById('sim-ops').value, 10);
+
+      document.getElementById('sim-crm-val').textContent = `+${crmAdd} pts`;
+      document.getElementById('sim-auto-val').textContent = `+${autoAdd} pts`;
+      document.getElementById('sim-ops-val').textContent = `+${opsAdd} pts`;
+
+      const baseScore = diagnosticResults ? diagnosticResults.overallScore : 52;
+      const combinedUplift = Math.round((crmAdd * 0.35) + (autoAdd * 0.35) + (opsAdd * 0.30));
+      const simulatedScore = Math.min(96, baseScore + combinedUplift);
+
+      document.getElementById('sim-projected-score').textContent = `${simulatedScore} / 100`;
+
+      let badgeText = "Emerging Architecture";
+      if (simulatedScore >= 80) badgeText = "Architected Enterprise";
+      else if (simulatedScore >= 65) badgeText = "Structured Architecture";
+
+      document.getElementById('sim-projected-badge').textContent = badgeText;
+    }
+
+    // Service Matching
+    function renderTBAServices(lowestPillars) {
+      const container = document.getElementById('tba-services-container');
+      container.innerHTML = '';
+
+      const serviceMap = {
+        systems: {
+          title: "CRM Implementation & Data Architecture",
+          tag: "TBA Systems Capability",
+          desc: "We configure, migrate, and customize HubSpot, Zoho, or Salesforce into an integrated single source of truth.",
+          benefits: ["Zero lost leads", "Clean pipeline reporting", "Automated proposal generation"]
+        },
+        automation: {
+          title: "Business Process & Workflow Automation",
+          tag: "TBA Automation Capability",
+          desc: "Connect your disparate tools with custom webhooks, rules engines, and AI to eliminate repetitive manual hours.",
+          benefits: ["Save 20-40h/week per team", "Zero manual data errors", "Instant client notification loops"]
+        },
+        marketing: {
+          title: "Sales Process Optimization & Customer Acquisition",
+          tag: "TBA Sales Consulting",
+          desc: "Transform erratic referral dependency into a predictable, multi-channel inbound and outbound acquisition engine.",
+          benefits: ["Predictable monthly leads", "Documented sales playbooks", "Lower acquisition costs"]
+        },
+        operations: {
+          title: "Operations & SOP Systematization",
+          tag: "TBA Operations Consulting",
+          desc: "Standardize service delivery, eliminate cross-team friction, and build training systems for seamless employee onboarding.",
+          benefits: ["Consistent service delivery", "Faster staff ramp-up", "Eliminated founder bottlenecks"]
+        },
+        strategy: {
+          title: "Business Growth Strategy & Advisory",
+          tag: "TBA Strategic Consulting",
+          desc: "Clarify market positioning, optimize unit economics, and build an actionable quarterly roadmap for scalable growth.",
+          benefits: ["De-risked capital decisions", "Team-wide strategic clarity", "Accelerated enterprise value"]
+        },
+        growth: {
+          title: "Scalability & Enterprise Readiness",
+          tag: "TBA Scalability Practice",
+          desc: "Prepare operations, team leadership, and technology to absorb 2x-5x demand growth without breaking delivery.",
+          benefits: ["High operating leverage", "Founder independence", "Increased exit valuation"]
+        },
+        digital: {
+          title: "Digital Presence & Conversion Architecture",
+          tag: "TBA Digital Practice",
+          desc: "Redesign your web experience, conversion funnels, and search visibility to attract high-intent commercial buyers.",
+          benefits: ["Higher visitor conversion", "Verified industry authority", "Mobile-optimized funnels"]
+        }
+      };
+
+      // Pick top 3 relevant services
+      const keys = lowestPillars.map(p => p.key);
+      if (keys.length < 3) keys.push('strategy', 'operations');
+
+      keys.slice(0, 3).forEach(k => {
+        const s = serviceMap[k] || serviceMap['systems'];
+        const div = document.createElement('div');
+        div.className = 'service-match-card';
+        div.innerHTML = `
+          <div class="service-tag-row">
+            <span class="pill info">${s.tag}</span>
+            <span style="font-size:12px; font-weight:700; color:var(--cobalt);">Targeted Gap Fit</span>
+          </div>
+          <h4>${s.title}</h4>
+          <p>${s.desc}</p>
+          <ul>
+            ${s.benefits.map(b => `<li>${b}</li>`).join('')}
+          </ul>
+          <button class="btn primary sm" onclick="openConsultationModal('${s.title}')">
+            Explore ${s.title.split('&')[0]} &rarr;
+          </button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // Consultation Modal
+    function openConsultationModal(serviceFocus) {
+      const modal = document.getElementById('consult-modal');
+      modal.classList.add('open');
+      if (diagnosticResults) {
+        document.getElementById('modal-company').value = diagnosticResults.companyName;
+        document.getElementById('modal-score').value = `${diagnosticResults.overallScore}/100 (${diagnosticResults.stageName})` + (serviceFocus ? ` - Focus: ${serviceFocus}` : '');
+      }
+    }
+
+    function closeConsultationModal() {
+      document.getElementById('consult-modal').classList.remove('open');
+    }
+
+    function submitConsultation(e) {
+      e.preventDefault();
+      const btn = document.getElementById('modal-submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Submitting Request...';
+
+      setTimeout(() => {
+        document.getElementById('consult-form').style.display = 'none';
+        document.getElementById('modal-success-msg').style.display = 'block';
+      }, 700);
+    }
+
+    // Export Diagnostic JSON
+    function downloadDiagnosticJSON() {
+      if (!diagnosticResults) return;
+      const jsonStr = JSON.stringify(diagnosticResults, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `TBA_Architecture_Explorer_${diagnosticResults.companyName.replace(/\s+/g, '_')}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // Retake Assessment
+    function retakeAssessment() {
+      if (confirm('Would you like to reset and retake the assessment?')) {
+        document.getElementById('results-dashboard').classList.remove('active');
+        document.getElementById('results-dashboard').style.display = 'none';
+        document.getElementById('stepper-container').style.display = 'block';
+        goToStep(0);
+      }
+    }
+  </script>
+<script src="./assets/header.js"></script>
+</body>
+</html>
