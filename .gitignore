@@ -24,13 +24,3 @@ desktop.ini
 dist/
 build/
 .cache/
-
-temp_original/
-apply_revert.js
-sync_and_push.js
-
-*.js
-!server.js
-!The-Barchs/**/*.js
-!assets/**/*.js
-!js/**/*.js
