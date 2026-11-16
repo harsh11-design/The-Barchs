@@ -20,7 +20,7 @@ yarn-error.log*
 Thumbs.db
 desktop.ini
 
-# Temporary and build artifacts
+# Temporary build caches
 dist/
 build/
 .cache/

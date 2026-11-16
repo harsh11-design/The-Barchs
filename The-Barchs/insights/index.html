@@ -42,9 +42,48 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/site.css">
-  
+  <style>
+    .cat-btn {
+      background: #fff;
+      border: 1px solid var(--ln);
+      padding: 8px 18px;
+      border-radius: 980px;
+      font-family: var(--fh);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--mu);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cat-btn.active, .cat-btn:hover {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+    .article-card-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 32px;
+    }
+    .featured-hero-article {
+      background: radial-gradient(60% 60% at 85% 20%, #3550ff 0%, transparent 70%),
+                  linear-gradient(150deg, #0b1fb8, #070f3d);
+      color: #fff;
+      border-radius: var(--r);
+      padding: 44px;
+      margin-bottom: 40px;
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 36px;
+      align-items: center;
+    }
+    @media(max-width: 800px) {
+      .featured-hero-article { grid-template-columns: 1fr; padding: 28px; }
+    }
+  </style>
 <link rel="stylesheet" href="../assets/header.css">
 </head>
 <body>

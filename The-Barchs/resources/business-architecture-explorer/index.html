@@ -7,12 +7,12 @@
   <title>Business Architecture Explorer | Flagship Diagnostic | Barchs – The Business Architects</title>
   <meta name="description" content="TBA Business Architecture Explorer: A diagnostic framework that examines how the 7 core pillars of your business fit together, uncovers structural bottlenecks, and builds an actionable growth roadmap.">
   <meta name="color-scheme" content="light">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#d9d4fb">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&display=swap" rel="stylesheet">
 
   <!-- Local Chart.js with CDN fallback -->
   <script src="../../js/chart.min.js"></script>
@@ -27,66 +27,45 @@
        TBA DESIGN SYSTEM & PHENOMENON TOKENS
        ========================================================================== */
     :root {
-      /* Atlassian Design Tokens */
-      --brand: #1868db;          /* Atlassian Blue */
-      --brand-hover: #1558bc;
-      --brand-boldest: #1c2b42;  /* Navy */
-      --brand-tint: #e9f2fe;     /* Pale Blue */
-      --canvas: #ffffff;
-      --ink: #101214;            /* Headings, main text */
-      --ink-2: #292a2e;
-      --ink-subtle: #505258;     /* Body text */
-      --ink-subtlest: #63666b;   /* Captions, legal */
-      --hairline: #dddee1;       /* Dividers, borders */
-      --hairline-strong: #b7b9be;/* Input borders */
-      --inverse: #000000;
-      --chart-green: #22a06b;
-      --chart-purple: #af59e1;
-      --chart-orange: #c75300;
-      --chart-blue: #357de8;
-
-      /* Backward-compatible token aliases */
-      --bg: var(--canvas);
-      --bg-surface: var(--canvas);
-      --bg-alt: var(--canvas);
-      --card: var(--canvas);
-      --card-border: var(--hairline);
-      --ink-dark: #101214;
-      --ink-light: #292a2e;
-      --cobalt: var(--brand-boldest);
-      --brand-blue: var(--brand);
-      --brand-blue-hover: var(--brand-hover);
-      --lime: var(--brand);
-      --lime-hover: var(--brand-hover);
-      --mu: var(--ink-subtle);
-      --mu-light: var(--ink-subtlest);
-      --ln: var(--hairline);
-      --ln-light: var(--hairline);
-
+      --bg: #d9d4fb;
+      --bg-surface: #f4f2ff;
+      --bg-alt: #e7e3ff;
+      --card: #ffffff;
+      --card-border: #cfc9f3;
+      --ink: #070f3d;
+      --ink-dark: #040924;
+      --ink-light: #152266;
+      --cobalt: #0b1fb8;
+      --brand-blue: #2347ff;
+      --brand-blue-hover: #1938db;
+      --lime: #d7f205;
+      --lime-hover: #c4dc00;
+      --mu: #4f5478;
+      --mu-light: #7b82ab;
+      --ln: #cfc9f3;
+      --ln-light: #e8e4fd;
+      
       --success-bg: #dcfce7;
-      --success-tx: #22a06b;
+      --success-tx: #15803d;
       --warning-bg: #fef3c7;
-      --warning-tx: #c75300;
+      --warning-tx: #b45309;
       --danger-bg: #ffe4e6;
       --danger-tx: #be123c;
-      --info-bg: var(--brand-tint);
-      --info-tx: var(--brand);
+      --info-bg: #e0f2fe;
+      --info-tx: #0369a1;
 
-      /* Shape Tiers */
-      --r-sm: 3px;          /* Inputs */
-      --r-md: 20px;         /* Cards and tiles */
-      --r-lg: 20px;
-      --r-pill: 10000px;    /* Pill */
+      --r-sm: 12px;
+      --r-md: 20px;
+      --r-lg: 28px;
+      --r-pill: 980px;
 
-      /* Elevation: Borders, not shadows */
-      --shadow-sm: none;
-      --shadow-md: none;
-      --shadow-lg: none;
-      --shadow-glow: none;
+      --shadow-sm: 0 4px 12px rgba(7, 15, 61, 0.05);
+      --shadow-md: 0 14px 36px rgba(35, 40, 160, 0.08);
+      --shadow-lg: 0 24px 60px rgba(7, 15, 61, 0.14);
+      --shadow-glow: 0 0 24px rgba(215, 242, 5, 0.4);
 
-      /* Typography */
-      --fh: "Inter", -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
-      --fb: "Inter", -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      --fh: "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --fb: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -123,7 +102,7 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: #ffffff;
+      background: rgba(217, 212, 251, 0.88);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--ln);
@@ -149,7 +128,7 @@
       width: 36px;
       height: 36px;
       border-radius: 10px;
-      box-shadow: none;
+      box-shadow: 0 4px 12px rgba(7, 15, 61, 0.15);
     }
     .brand-logo-text {
       font-family: var(--fh);
@@ -212,7 +191,7 @@
     .btn:hover {
       transform: translateY(-2px);
       background: #e4ff3a;
-      box-shadow: none;
+      box-shadow: 0 8px 24px rgba(215, 242, 5, 0.4);
     }
     .btn:active {
       transform: translateY(0);
@@ -223,7 +202,7 @@
     }
     .btn.primary:hover {
       background: var(--brand-blue-hover);
-      box-shadow: none;
+      box-shadow: 0 8px 24px rgba(35, 71, 255, 0.35);
     }
     .btn.dark {
       background: var(--ink);
@@ -231,7 +210,7 @@
     }
     .btn.dark:hover {
       background: var(--ink-light);
-      box-shadow: none;
+      box-shadow: 0 8px 24px rgba(7, 15, 61, 0.25);
     }
     .btn.o {
       background: transparent;
@@ -375,7 +354,7 @@
     }
     .progress-fill {
       height: 100%;
-      background: var(--brand));
+      background: linear-gradient(90deg, var(--brand-blue), var(--lime));
       border-radius: 99px;
       width: 0%;
       transition: width 0.4s cubic-bezier(0.2, 0.8, 0.3, 1);
@@ -516,7 +495,7 @@
     .form-control:focus {
       outline: none;
       border-color: var(--brand-blue);
-      box-shadow: none;
+      box-shadow: 0 0 0 3px rgba(35, 71, 255, 0.15);
     }
 
     /* Diagnostic Question Blocks */
@@ -595,7 +574,7 @@
     .option-card.selected {
       border-color: var(--brand-blue);
       background: #f6f5ff;
-      box-shadow: none;
+      box-shadow: 0 4px 16px rgba(35, 71, 255, 0.1);
     }
     .option-card.selected .radio-indicator {
       border-color: var(--brand-blue);
@@ -717,7 +696,9 @@
     }
 
     .report-hero {
-      background: var(--brand-boldest);
+      background: radial-gradient(60% 60% at 85% 10%, #3550ff 0%, transparent 70%),
+                  radial-gradient(40% 40% at 10% 90%, #1a2fd0 0%, transparent 65%),
+                  linear-gradient(150deg, #0b1fb8, #070f3d);
       color: #ffffff;
       border-radius: var(--r-lg);
       padding: 48px;
@@ -945,7 +926,7 @@
     .bar-progress {
       height: 100%;
       border-radius: 99px;
-      background: var(--brand));
+      background: linear-gradient(90deg, var(--brand-blue), var(--lime));
       transition: width 1s ease-in-out;
     }
 
@@ -1001,9 +982,9 @@
       height: 10px;
       border-radius: 50%;
     }
-    .status-dot.connected { background: #16a34a; box-shadow: none; }
-    .status-dot.partial { background: #eab308; box-shadow: none; }
-    .status-dot.disconnected { background: #e11d48; box-shadow: none; }
+    .status-dot.connected { background: #16a34a; box-shadow: 0 0 8px rgba(22, 163, 74, 0.4); }
+    .status-dot.partial { background: #eab308; box-shadow: 0 0 8px rgba(234, 179, 8, 0.4); }
+    .status-dot.disconnected { background: #e11d48; box-shadow: 0 0 8px rgba(225, 29, 72, 0.4); }
 
     /* Strengths & Weaknesses Split */
     .sw-grid {
@@ -2890,7 +2871,7 @@
         </div>
         <div class="form-group" style="margin-bottom:16px;">
           <label>Diagnostic Health Score Attached</label>
-          <input type="text" id="modal-score" class="form-control" style="background:#ffffff; font-weight:700;" readonly>
+          <input type="text" id="modal-score" class="form-control" style="background:#f4f2ff; font-weight:700;" readonly>
         </div>
         <button type="submit" class="btn primary" style="width:100%; padding:14px; font-size:15px;" id="modal-submit-btn">
           Confirm Strategy Session Request &rarr;
