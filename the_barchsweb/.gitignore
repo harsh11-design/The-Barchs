@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing and Playwright snapshots
+.playwright-mcp/
+test-results/
+
+# Environment and logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary build caches
+dist/
+build/
+.cache/

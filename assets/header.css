@@ -1,7 +1,7 @@
 /* ==========================================================================
-   BARCHS PREMIUM WEBSITE-MATCHED NAVIGATION HEADER & LUXURY HAMBURGER MENU
-   Design Language: Phenomenon Theme (Bricolage Grotesque, DM Sans, Deep Ink #070f3d,
-   Cobalt #0b1fb8, Electric Lime #d7f205, Slate #f4f2ff, Soft Lilac #d9d4fb)
+   BARCHS PREMIUM EXECUTIVE NAVIGATION HEADER & MOBILE MENU SYSTEM
+   Brand Architecture: 60-30-10 Executive Color Hierarchy
+   Surface: #0F172A (Deep Executive Navy) | Accent: #D97706 / #F59E0B (Gold)
    ========================================================================== */
 
 /* Prevent Horizontal Page Overflow while maintaining sticky positioning */
@@ -10,11 +10,13 @@ html, body {
   overflow-x: clip;
 }
 
-/* Top Announcement Banner */
+/* ==========================================================================
+   1. TOP ANNOUNCEMENT BANNER
+   ========================================================================== */
 .top-announcement-bar {
-  background: var(--ink, #070f3d);
-  color: #cdd3ff;
-  font-family: var(--fb, "DM Sans", sans-serif);
+  background: #020617;
+  color: #CBD5E1;
+  font-family: var(--fb, "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
   font-size: 13px;
   line-height: 1.4;
   padding: 8px 16px;
@@ -24,6 +26,7 @@ html, body {
   width: 100%;
   box-sizing: border-box;
 }
+
 .top-announcement-inner {
   max-width: 1240px;
   margin: 0 auto;
@@ -34,30 +37,37 @@ html, body {
   flex-wrap: wrap;
   text-align: center;
 }
+
 .announcement-pill {
   display: inline-block;
-  background: var(--lime, #d7f205);
-  color: var(--ink, #070f3d);
-  font-family: var(--fh, "Bricolage Grotesque", sans-serif);
+  background: #D97706;
+  color: #FFFFFF;
+  font-family: var(--fh, "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
   font-size: 11px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  padding: 2px 8px;
+  padding: 2px 10px;
   border-radius: 999px;
+  box-shadow: 0 1px 4px rgba(217, 119, 6, 0.3);
 }
+
 .announcement-link {
-  color: var(--lime, #d7f205);
+  color: #F59E0B;
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 3px;
-  transition: opacity 0.15s ease;
-}
-.announcement-link:hover {
-  opacity: 0.85;
+  transition: color 0.15s ease, opacity 0.15s ease;
 }
 
-/* Main Header Container */
+.announcement-link:hover {
+  color: #FBBF24;
+  opacity: 0.95;
+}
+
+/* ==========================================================================
+   2. MAIN HEADER CONTAINER
+   ========================================================================== */
 .barchs-header {
   position: sticky;
   top: 0;
@@ -66,23 +76,25 @@ html, body {
   width: 100%;
   max-width: 100vw;
   z-index: 100;
-  background: rgba(217, 212, 251, 0.88);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid var(--ln, #cfc9f3);
+  background: #0F172A;
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  backdrop-filter: saturate(180%) blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   box-sizing: border-box;
 }
+
 .barchs-header.scrolled {
-  background: rgba(217, 212, 251, 0.96);
-  border-bottom-color: rgba(11, 31, 184, 0.18);
-  box-shadow: 0 10px 30px rgba(7, 15, 61, 0.09);
+  background: rgba(15, 23, 42, 0.98);
+  border-bottom-color: rgba(245, 158, 11, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
 .barchs-nav {
   position: relative;
   width: 100%;
 }
+
 .nav-container {
   max-width: 1240px;
   width: 100%;
@@ -96,7 +108,9 @@ html, body {
   box-sizing: border-box;
 }
 
-/* Brand Logo */
+/* ==========================================================================
+   3. BRAND LOGO
+   ========================================================================== */
 .brand-logo {
   display: flex;
   align-items: center;
@@ -105,44 +119,48 @@ html, body {
   outline: none;
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
+
 .brand-logo:hover {
   transform: scale(1.02);
   opacity: 0.95;
 }
+
 .brand-logo img,
 .brand-logo .logo-img {
   height: 34px;
   width: auto;
   display: block;
-  mix-blend-mode: multiply;
   border-radius: 4px;
 }
 
-/* Desktop Navigation List */
+/* ==========================================================================
+   4. DESKTOP NAVIGATION MENU
+   ========================================================================== */
 .nav-menu {
   display: flex;
   align-items: center;
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 2px;
+  gap: 4px;
   flex-wrap: nowrap;
 }
+
 .nav-item {
   position: relative;
 }
 
-/* Navigation Link with SVG Icon */
+/* Navigation Links */
 .nav-link {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 7px 9px;
+  gap: 6px;
+  padding: 8px 12px;
   border-radius: 999px;
-  font-family: var(--fh, "Bricolage Grotesque", sans-serif);
-  font-size: 13px;
+  font-family: var(--fh, "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  font-size: 13.5px;
   font-weight: 600;
-  color: var(--tx, #070f3d);
+  color: #CBD5E1;
   text-decoration: none;
   line-height: 1;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -150,51 +168,60 @@ html, body {
   cursor: pointer;
   white-space: nowrap;
 }
+
 .nav-link .nav-ico {
   width: 15px;
   height: 15px;
   flex-shrink: 0;
-  stroke: var(--cob, #0b1fb8);
+  stroke: #94A3B8;
   transition: transform 0.2s ease, stroke 0.2s ease;
 }
+
 .nav-link .nav-caret {
   width: 9px;
   height: 6px;
   margin-left: 2px;
-  stroke: var(--mu, #4f5478);
+  stroke: #94A3B8;
   transition: transform 0.25s ease, stroke 0.2s ease;
 }
+
 .nav-link:hover {
-  background: rgba(255, 255, 255, 0.85);
-  color: var(--cob, #0b1fb8);
-  box-shadow: 0 4px 14px rgba(7, 15, 61, 0.08);
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
 }
+
 .nav-link:hover .nav-ico {
-  stroke: var(--ac, #2347ff);
+  stroke: #F59E0B;
   transform: translateY(-1px);
 }
+
 .nav-link:hover .nav-caret {
-  stroke: var(--cob, #0b1fb8);
+  stroke: #F59E0B;
 }
 
 /* Active State */
 .nav-link.active {
-  background: var(--ink, #070f3d);
-  color: #ffffff;
-  box-shadow: 0 4px 16px rgba(7, 15, 61, 0.2);
-}
-.nav-link.active .nav-ico {
-  stroke: var(--lime, #d7f205);
-  transform: none;
-}
-.nav-link.active .nav-caret {
-  stroke: #ffffff;
+  background: rgba(245, 158, 11, 0.15);
+  color: #FFFFFF;
+  border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
-/* Dropdown Container */
+.nav-link.active .nav-ico {
+  stroke: #F59E0B;
+  transform: none;
+}
+
+.nav-link.active .nav-caret {
+  stroke: #FFFFFF;
+}
+
+/* ==========================================================================
+   5. MEGA DROPDOWNS (SERVICES, INDUSTRIES)
+   ========================================================================== */
 .has-dropdown:hover .nav-caret,
 .has-dropdown:focus-within .nav-caret {
   transform: rotate(180deg);
+  stroke: #F59E0B;
 }
 
 .dropdown-pane {
@@ -202,17 +229,18 @@ html, body {
   top: 100%;
   left: 50%;
   transform: translateX(-50%) translateY(14px);
-  background: #ffffff;
-  border-radius: 22px;
+  background: #FFFFFF;
+  border-radius: 18px;
   padding: 16px;
-  box-shadow: 0 24px 60px rgba(7, 15, 61, 0.18), 0 4px 16px rgba(11, 31, 184, 0.06);
-  border: 1px solid rgba(11, 31, 184, 0.12);
+  box-shadow: 0 20px 40px -4px rgba(15, 23, 42, 0.16), 0 8px 16px -2px rgba(15, 23, 42, 0.08);
+  border: 1px solid #E2E8F0;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.22s ease, transform 0.26s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.22s ease;
   z-index: 60;
 }
+
 .dropdown-pane::before {
   content: "";
   position: absolute;
@@ -221,6 +249,7 @@ html, body {
   right: 0;
   height: 16px;
 }
+
 .has-dropdown:hover .dropdown-pane,
 .has-dropdown:focus-within .dropdown-pane {
   opacity: 1;
@@ -235,6 +264,7 @@ html, body {
   left: 0;
   transform: translateY(14px);
 }
+
 .has-dropdown:hover .services-mega-dropdown,
 .has-dropdown:focus-within .services-mega-dropdown {
   transform: translateY(8px);
@@ -246,6 +276,7 @@ html, body {
   left: 0;
   transform: translateY(14px);
 }
+
 .has-dropdown:hover .industries-dropdown,
 .has-dropdown:focus-within .industries-dropdown {
   transform: translateY(8px);
@@ -257,27 +288,30 @@ html, body {
   justify-content: space-between;
   padding: 4px 10px 12px;
   margin-bottom: 8px;
-  border-bottom: 1px solid var(--sec, #f4f2ff);
+  border-bottom: 1px solid #E2E8F0;
 }
+
 .dropdown-title {
-  font-family: var(--fh, "Bricolage Grotesque", sans-serif);
+  font-family: var(--fh, "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
   font-size: 12px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--mu, #4f5478);
+  color: #64748B;
 }
+
 .dropdown-view-all {
-  font-family: var(--fh, "Bricolage Grotesque", sans-serif);
+  font-family: var(--fh, "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
   font-size: 12px;
   font-weight: 700;
-  color: var(--cob, #0b1fb8);
+  color: #D97706;
   text-decoration: none;
   transition: color 0.15s ease;
 }
+
 .dropdown-view-all:hover {
   text-decoration: underline;
-  color: var(--ac, #2347ff);
+  color: #B45309;
 }
 
 .dropdown-grid {
@@ -285,6 +319,7 @@ html, body {
   grid-template-columns: 1fr 1fr;
   gap: 6px;
 }
+
 .dropdown-grid.single-col {
   grid-template-columns: 1fr;
 }
@@ -293,61 +328,71 @@ html, body {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 10px;
-  border-radius: 14px;
+  padding: 9px 12px;
+  border-radius: 12px;
   text-decoration: none;
   transition: all 0.18s ease;
   border-left: 3px solid transparent;
 }
+
 .dropdown-card .card-icon {
   width: 32px;
   height: 32px;
-  border-radius: 10px;
-  background: var(--sec, #f4f2ff);
-  color: var(--cob, #0b1fb8);
+  border-radius: 8px;
+  background: #F1F5F9;
+  color: #0F172A;
   display: grid;
   place-items: center;
   flex-shrink: 0;
   transition: all 0.18s ease;
 }
+
 .dropdown-card .card-icon svg {
   width: 17px;
   height: 17px;
   stroke: currentColor;
 }
+
 .dropdown-card .card-text {
   display: flex;
   flex-direction: column;
 }
+
 .dropdown-card .card-text strong {
-  font-family: var(--fh, "Bricolage Grotesque", sans-serif);
+  font-family: var(--fh, "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
   font-size: 13.5px;
   font-weight: 700;
-  color: var(--ink, #070f3d);
-  line-height: 1.2;
+  color: #0F172A;
+  line-height: 1.25;
   transition: color 0.18s ease;
 }
+
 .dropdown-card .card-text span {
-  font-family: var(--fb, "DM Sans", sans-serif);
-  font-size: 11px;
-  color: var(--mu, #4f5478);
+  font-family: var(--fb, "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  font-size: 11.5px;
+  color: #64748B;
   line-height: 1.3;
   margin-top: 2px;
 }
+
 .dropdown-card:hover {
-  background: var(--sec, #f4f2ff);
-  border-left-color: var(--ac, #2347ff);
+  background: #F8FAFC;
+  border-left-color: #D97706;
   transform: translateX(2px);
 }
+
 .dropdown-card:hover .card-icon {
-  background: var(--lime, #d7f205);
-  color: var(--ink, #070f3d);
-}
-.dropdown-card:hover .card-text strong {
-  color: var(--cob, #0b1fb8);
+  background: rgba(245, 158, 11, 0.15);
+  color: #D97706;
 }
 
-/* Header Actions */
+.dropdown-card:hover .card-text strong {
+  color: #D97706;
+}
+
+/* ==========================================================================
+   6. HEADER ACTIONS (CTA & HAMBURGER)
+   ========================================================================== */
 .nav-actions {
   display: flex;
   align-items: center;
@@ -356,43 +401,47 @@ html, body {
   margin-left: auto;
 }
 
-/* Consultation CTA Button */
+/* Consultation CTA Button (Executive Gold #D97706) */
 .nav-cta {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: var(--lime, #d7f205);
-  color: var(--ink, #070f3d);
-  padding: 8px 16px;
+  background: #D97706;
+  color: #FFFFFF;
+  padding: 9px 18px;
   border-radius: 999px;
-  font-family: var(--fh, "Bricolage Grotesque", sans-serif);
+  font-family: var(--fh, "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
   font-size: 13.5px;
   font-weight: 700;
+  letter-spacing: 0.01em;
   text-decoration: none;
-  border: 1.5px solid transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(7, 15, 61, 0.1);
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
   transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
   flex-shrink: 0;
 }
+
 .nav-cta .btn-ico {
   width: 15px;
   height: 15px;
-  stroke: var(--ink, #070f3d);
+  stroke: #FFFFFF;
   transition: transform 0.2s ease;
 }
+
 .nav-cta:hover {
-  background: #e4ff3a;
+  background: #B45309;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(215, 242, 5, 0.4);
+  box-shadow: 0 6px 20px rgba(180, 83, 9, 0.45);
 }
+
 .nav-cta:hover .btn-ico {
   transform: rotate(6deg) scale(1.1);
 }
 
 /* ==========================================================================
-   PREMIUM THEME-MATCHED HAMBURGER TOGGLE BUTTON
+   7. HAMBURGER TOGGLE BUTTON
    ========================================================================== */
 .nav-toggle {
   display: inline-flex !important;
@@ -403,12 +452,12 @@ html, body {
   min-width: 42px;
   padding: 0 12px;
   border-radius: 999px;
-  border: 1.5px solid var(--ln, #cfc9f3);
-  background: rgba(255, 255, 255, 0.95);
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(7, 15, 61, 0.06);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
   user-select: none;
   outline: none;
@@ -416,34 +465,37 @@ html, body {
   visibility: visible !important;
   opacity: 1 !important;
 }
+
 .nav-toggle:hover {
-  background: #ffffff;
-  border-color: var(--cob, #0b1fb8);
-  box-shadow: 0 4px 16px rgba(11, 31, 184, 0.14);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #F59E0B;
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.2);
   transform: translateY(-1px);
 }
+
 .nav-toggle:active {
   transform: scale(0.96);
 }
+
 .nav-toggle:focus-visible {
-  outline: 3px solid var(--ac, #2347ff);
+  outline: 3px solid #F59E0B;
   outline-offset: 2px;
 }
 
-/* Text label inside hamburger button */
 .nav-toggle-label {
-  font-family: var(--fh, "Bricolage Grotesque", sans-serif);
+  font-family: var(--fh, "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
   font-size: 13px;
   font-weight: 700;
-  color: var(--ink, #070f3d);
+  color: #FFFFFF;
   letter-spacing: 0.02em;
   transition: color 0.2s ease;
 }
+
 .nav-toggle:hover .nav-toggle-label {
-  color: var(--cob, #0b1fb8);
+  color: #F59E0B;
 }
 
-/* Three Clean, Beautifully Proportioned Lines */
+/* Three Clean Hamburger Lines */
 .hamburger-box {
   width: 20px;
   height: 14px;
@@ -453,69 +505,79 @@ html, body {
   position: relative;
   flex-shrink: 0;
 }
+
 .hamburger-line {
   display: block;
   height: 2px;
   border-radius: 2px;
-  background-color: var(--ink, #070f3d);
-  background: #070f3d;
+  background-color: #FFFFFF;
+  background: #FFFFFF;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               opacity 0.2s ease,
               width 0.25s ease,
               background-color 0.2s ease;
 }
+
 .hamburger-line.line-1 {
   width: 20px;
   transform-origin: center;
 }
+
 .hamburger-line.line-2 {
   width: 14px;
   margin-left: auto;
   transform-origin: right;
 }
+
 .hamburger-line.line-3 {
   width: 20px;
   transform-origin: center;
 }
 
-/* Hover Animation: Line 2 expands to full width */
 .nav-toggle:hover .hamburger-line.line-2 {
   width: 20px;
 }
 
-/* Animated Morphing from 3 Lines into Close "X" */
+.nav-toggle:hover .hamburger-line {
+  background-color: #F59E0B;
+  background: #F59E0B;
+}
+
+/* Animated Morphing to Close "X" */
 .nav-toggle[aria-expanded="true"] {
-  background: var(--ink, #070f3d);
-  border-color: var(--ink, #070f3d);
-  box-shadow: 0 4px 16px rgba(7, 15, 61, 0.25);
+  background: rgba(245, 158, 11, 0.2);
+  border-color: #F59E0B;
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
 }
+
 .nav-toggle[aria-expanded="true"] .nav-toggle-label {
-  color: #ffffff;
+  color: #F59E0B;
 }
+
 .nav-toggle[aria-expanded="true"] .hamburger-line.line-1 {
   transform: translateY(6px) rotate(45deg);
-  background: var(--lime, #d7f205);
-  background-color: var(--lime, #d7f205);
+  background: #F59E0B;
+  background-color: #F59E0B;
 }
+
 .nav-toggle[aria-expanded="true"] .hamburger-line.line-2 {
   transform: scaleX(0);
   opacity: 0;
 }
+
 .nav-toggle[aria-expanded="true"] .hamburger-line.line-3 {
   transform: translateY(-6px) rotate(-45deg);
-  background: var(--lime, #d7f205);
-  background-color: var(--lime, #d7f205);
+  background: #F59E0B;
+  background-color: #F59E0B;
 }
 
 /* ==========================================================================
-   LUXURY OFF-CANVAS SIDE DRAWER NAVIGATION PANEL
+   8. LUXURY OFF-CANVAS SIDE DRAWER (EXECUTIVE NAVY #0F172A)
    ========================================================================== */
-
-/* Dimmed Glassmorphic Backdrop Overlay */
 .mobile-drawer-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(7, 15, 61, 0.5);
+  background: rgba(2, 6, 23, 0.7);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   z-index: 9998;
@@ -524,13 +586,13 @@ html, body {
   pointer-events: none;
   transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s ease;
 }
+
 .mobile-drawer-overlay.open {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
 }
 
-/* Slide-In Side Drawer */
 .mobile-nav-drawer {
   position: fixed;
   top: 0;
@@ -540,9 +602,9 @@ html, body {
   max-width: 100vw;
   height: 100vh;
   height: 100dvh;
-  background: #ffffff;
-  border-left: 1px solid var(--ln, #cfc9f3);
-  box-shadow: -16px 0 60px rgba(7, 15, 61, 0.28);
+  background: #0F172A;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: -16px 0 60px rgba(0, 0, 0, 0.45);
   z-index: 9999;
   transform: translateX(102%);
   visibility: hidden;
@@ -553,6 +615,7 @@ html, body {
   overflow: hidden;
   box-sizing: border-box;
 }
+
 .mobile-nav-drawer.open {
   transform: translateX(0);
   visibility: visible;
@@ -576,72 +639,80 @@ html, body {
   align-items: center;
   justify-content: space-between;
   padding-bottom: 14px;
-  border-bottom: 1px solid var(--sec, #f4f2ff);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   position: sticky;
   top: -20px;
-  background: #ffffff;
+  background: #0F172A;
   z-index: 10;
   margin: -20px -20px 0;
   padding: 18px 20px 14px;
-  box-shadow: 0 4px 14px rgba(7, 15, 61, 0.04);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
 }
+
 .drawer-brand {
   display: flex;
   flex-direction: column;
   gap: 3px;
 }
+
 .drawer-logo-img {
   height: 28px;
   width: auto;
-  mix-blend-mode: multiply;
   display: block;
 }
+
 .drawer-badge {
-  font-family: var(--fh, "Bricolage Grotesque", sans-serif);
+  font-family: var(--fh, "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
   font-size: 10.5px;
   font-weight: 700;
-  color: var(--mu, #4f5478);
+  color: #94A3B8;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
+
 .drawer-close {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 1px solid var(--ln, #cfc9f3);
-  background: var(--sec, #f4f2ff);
-  color: var(--ink, #070f3d);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.06);
+  color: #FFFFFF;
   display: grid;
   place-items: center;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease, transform 0.25s ease;
 }
+
 .drawer-close svg {
   width: 17px;
   height: 17px;
+  stroke: currentColor;
 }
+
 .drawer-close:hover {
-  background: var(--ink, #070f3d);
-  color: #ffffff;
-  border-color: var(--ink, #070f3d);
+  background: #D97706;
+  color: #FFFFFF;
+  border-color: #D97706;
   transform: rotate(90deg);
 }
 
-/* Navigation Group */
+/* Drawer Groups */
 .drawer-nav-group {
   display: flex;
   flex-direction: column;
 }
+
 .drawer-group-title {
-  font-family: var(--fh, "Bricolage Grotesque", sans-serif);
+  font-family: var(--fh, "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
   font-size: 11px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--mu, #4f5478);
+  color: #94A3B8;
   margin-bottom: 8px;
   display: block;
 }
+
 .drawer-list {
   list-style: none;
   padding: 0;
@@ -651,133 +722,144 @@ html, body {
   gap: 5px;
 }
 
-/* Standard Drawer Item Link */
+/* Drawer Item Link */
 .drawer-link {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 9px 12px;
-  border-radius: 14px;
+  border-radius: 12px;
   text-decoration: none;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   border: 1px solid transparent;
 }
+
 .drawer-link:hover {
-  background: var(--sec, #f4f2ff);
-  border-color: rgba(11, 31, 184, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(245, 158, 11, 0.2);
   transform: translateX(3px);
 }
 
-/* Distinct Hero "Home" Link */
 .drawer-link.drawer-home-link {
-  background: rgba(217, 212, 251, 0.35);
-  border-color: rgba(11, 31, 184, 0.12);
-}
-.drawer-link.drawer-home-link:hover {
-  background: rgba(217, 212, 251, 0.65);
-}
-.drawer-link.drawer-home-link .drawer-link-ico-wrap {
-  background: var(--ink, #070f3d);
-  color: var(--lime, #d7f205);
-  border-color: var(--ink, #070f3d);
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
-/* Icon Container */
+.drawer-link.drawer-home-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.drawer-link.drawer-home-link .drawer-link-ico-wrap {
+  background: #1E293B;
+  color: #F59E0B;
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
 .drawer-link-ico-wrap {
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  background: #ffffff;
-  border: 1px solid var(--ln, #cfc9f3);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   display: grid;
   place-items: center;
   flex-shrink: 0;
-  color: var(--cob, #0b1fb8);
+  color: #F59E0B;
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
+
 .drawer-link-ico-wrap .nav-ico {
   width: 17px;
   height: 17px;
   stroke: currentColor;
 }
+
 .drawer-link:hover .drawer-link-ico-wrap {
-  background: var(--cob, #0b1fb8);
-  color: #ffffff;
-  border-color: var(--cob, #0b1fb8);
+  background: #D97706;
+  color: #FFFFFF;
+  border-color: #D97706;
 }
 
-/* Label & Typography */
 .drawer-link-text {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
+
 .drawer-link-title {
-  font-family: var(--fh, "Bricolage Grotesque", sans-serif);
+  font-family: var(--fh, "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
   font-size: 14px;
   font-weight: 700;
-  color: var(--ink, #070f3d);
+  color: #FFFFFF;
   line-height: 1.25;
   transition: color 0.15s ease;
 }
+
 .drawer-link-desc {
-  font-family: var(--fb, "DM Sans", sans-serif);
-  font-size: 11px;
-  color: var(--mu, #4f5478);
+  font-family: var(--fb, "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  font-size: 11.5px;
+  color: #94A3B8;
   line-height: 1.25;
   margin-top: 2px;
 }
+
 .drawer-link:hover .drawer-link-title {
-  color: var(--cob, #0b1fb8);
+  color: #F59E0B;
 }
 
-/* Pill Badges */
+/* Badges */
 .drawer-pill-badge {
-  font-family: var(--fh, "Bricolage Grotesque", sans-serif);
+  font-family: var(--fh, "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
   font-size: 10px;
   font-weight: 800;
   text-transform: uppercase;
-  background: var(--lime, #d7f205);
-  color: var(--ink, #070f3d);
+  background: #D97706;
+  color: #FFFFFF;
   padding: 2px 7px;
   border-radius: 999px;
   letter-spacing: 0.05em;
 }
+
 .drawer-count-badge {
-  font-family: var(--fh, "Bricolage Grotesque", sans-serif);
+  font-family: var(--fh, "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
   font-size: 11px;
   font-weight: 700;
-  background: var(--sec, #f4f2ff);
-  color: var(--cob, #0b1fb8);
+  background: rgba(255, 255, 255, 0.08);
+  color: #F59E0B;
   padding: 2px 7px;
   border-radius: 999px;
 }
 
 /* Active State in Drawer */
 .drawer-link.active {
-  background: var(--ink, #070f3d);
-  border-color: var(--ink, #070f3d);
-}
-.drawer-link.active .drawer-link-title {
-  color: #ffffff;
-}
-.drawer-link.active .drawer-link-desc {
-  color: #cdd3ff;
-}
-.drawer-link.active .drawer-link-ico-wrap {
-  background: var(--lime, #d7f205);
-  color: var(--ink, #070f3d);
-  border-color: var(--lime, #d7f205);
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.35);
 }
 
-/* Drawer Accordions for Services and Industries */
+.drawer-link.active .drawer-link-title {
+  color: #FFFFFF;
+}
+
+.drawer-link.active .drawer-link-desc {
+  color: #CBD5E1;
+}
+
+.drawer-link.active .drawer-link-ico-wrap {
+  background: #D97706;
+  color: #FFFFFF;
+  border-color: #D97706;
+}
+
+/* Drawer Accordions */
 .drawer-accordion {
   border-radius: 14px;
   overflow: hidden;
-  background: #ffffff;
-  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   transition: border-color 0.2s ease, background 0.2s ease;
 }
+
 .drawer-accordion-btn {
   width: 100%;
   display: flex;
@@ -791,127 +873,132 @@ html, body {
   text-align: left;
   transition: all 0.2s ease;
 }
+
 .drawer-accordion-btn:hover {
-  background: var(--sec, #f4f2ff);
+  background: rgba(255, 255, 255, 0.06);
 }
+
 .drawer-link-content {
   display: flex;
   align-items: center;
   gap: 12px;
   flex-grow: 1;
 }
+
 .drawer-accordion-meta {
   display: flex;
   align-items: center;
   gap: 8px;
 }
+
 .accordion-arrow {
   width: 11px;
   height: 7px;
-  stroke: var(--mu, #4f5478);
+  stroke: #94A3B8;
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.2s ease;
 }
+
 .drawer-accordion.open {
-  border-color: rgba(11, 31, 184, 0.12);
-  background: var(--sec, #f4f2ff);
+  border-color: rgba(245, 158, 11, 0.25);
+  background: rgba(15, 23, 42, 0.6);
 }
+
 .drawer-accordion.open .drawer-accordion-btn {
-  background: var(--sec, #f4f2ff);
+  background: rgba(255, 255, 255, 0.04);
   border-radius: 14px 14px 0 0;
 }
+
 .drawer-accordion.open .accordion-arrow {
   transform: rotate(180deg);
-  stroke: var(--cob, #0b1fb8);
+  stroke: #F59E0B;
 }
 
 /* Submenu & Grid */
 .drawer-sub-menu {
   display: none;
   padding: 6px 10px 12px;
-  background: var(--sec, #f4f2ff);
+  background: rgba(15, 23, 42, 0.4);
   border-radius: 0 0 14px 14px;
 }
+
 .drawer-accordion.open .drawer-sub-menu {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
+
 .view-all-link {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: var(--fh, "Bricolage Grotesque", sans-serif);
+  font-family: var(--fh, "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
   font-weight: 700;
   font-size: 12.5px;
-  color: var(--cob, #0b1fb8);
+  color: #F59E0B;
   text-decoration: none;
   padding: 8px 10px;
-  border-bottom: 1px solid rgba(11, 31, 184, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   margin-bottom: 4px;
   border-radius: 8px;
   transition: background 0.15s ease;
 }
+
 .view-all-link:hover {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.06);
   text-decoration: underline;
 }
-.sub-arrow {
-  font-size: 15px;
-}
 
-.drawer-sub-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2px;
-}
 .sub-link {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 7px 10px;
-  font-family: var(--fb, "DM Sans", sans-serif);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--ink, #070f3d);
-  text-decoration: none;
   border-radius: 8px;
+  font-family: var(--fb, "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  font-size: 13px;
+  font-weight: 500;
+  color: #CBD5E1;
+  text-decoration: none;
   transition: all 0.15s ease;
 }
-.sub-ico {
+
+.sub-link .sub-ico {
   width: 15px;
   height: 15px;
-  stroke: var(--cob, #0b1fb8);
+  stroke: #94A3B8;
   flex-shrink: 0;
   transition: stroke 0.15s ease;
 }
+
 .sub-link:hover {
-  color: var(--cob, #0b1fb8);
-  background: #ffffff;
-  box-shadow: 0 2px 8px rgba(7, 15, 61, 0.05);
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.08);
   transform: translateX(2px);
 }
+
 .sub-link:hover .sub-ico {
-  stroke: var(--ac, #2347ff);
+  stroke: #F59E0B;
 }
 
 /* Strategy Callout Card */
 .drawer-callout-card {
-  background: radial-gradient(85% 100% at 90% 0%, rgba(215, 242, 5, 0.18) 0%, transparent 60%),
-              linear-gradient(135deg, var(--ink, #070f3d) 0%, var(--cob, #0b1fb8) 100%);
+  background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+  border: 1px solid rgba(245, 158, 11, 0.25);
   border-radius: 18px;
   padding: 16px 18px;
-  color: #ffffff;
+  color: #FFFFFF;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  box-shadow: 0 10px 28px rgba(7, 15, 61, 0.16);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25);
   margin-top: 4px;
 }
+
 .callout-badge {
   align-self: flex-start;
-  background: var(--lime, #d7f205);
-  color: var(--ink, #070f3d);
-  font-family: var(--fh, "Bricolage Grotesque", sans-serif);
+  background: #D97706;
+  color: #FFFFFF;
+  font-family: var(--fh, "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
   font-size: 10px;
   font-weight: 800;
   text-transform: uppercase;
@@ -919,103 +1006,112 @@ html, body {
   padding: 2px 8px;
   border-radius: 999px;
 }
+
 .callout-heading {
-  font-family: var(--fh, "Bricolage Grotesque", sans-serif);
+  font-family: var(--fh, "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
   font-size: 16px;
   font-weight: 800;
-  color: #ffffff;
+  color: #FFFFFF;
   line-height: 1.25;
   margin: 0;
 }
+
 .callout-desc {
-  font-family: var(--fb, "DM Sans", sans-serif);
+  font-family: var(--fb, "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
   font-size: 12px;
-  color: #cdd3ff;
+  color: #CBD5E1;
   line-height: 1.4;
   margin: 0;
 }
+
 .drawer-cta-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: var(--lime, #d7f205);
-  color: var(--ink, #070f3d);
-  font-family: var(--fh, "Bricolage Grotesque", sans-serif);
+  background: #D97706;
+  color: #FFFFFF;
+  font-family: var(--fh, "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
   font-size: 14px;
   font-weight: 800;
   padding: 11px 18px;
   border-radius: 999px;
   text-decoration: none;
   margin-top: 4px;
-  box-shadow: 0 4px 16px rgba(215, 242, 5, 0.35);
+  box-shadow: 0 4px 16px rgba(217, 119, 6, 0.35);
   transition: all 0.18s ease;
 }
+
 .drawer-cta-btn .btn-ico {
   width: 15px;
   height: 15px;
-  stroke: var(--ink, #070f3d);
-}
-.drawer-cta-btn:hover {
-  background: #e4ff3a;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(215, 242, 5, 0.45);
+  stroke: #FFFFFF;
 }
 
-/* Direct Contact Strip */
+.drawer-cta-btn:hover {
+  background: #B45309;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(180, 83, 9, 0.45);
+}
+
+/* Contact Footer in Drawer */
 .drawer-contact-footer {
   display: flex;
   flex-direction: column;
   gap: 6px;
   padding-top: 12px;
-  border-top: 1px solid var(--sec, #f4f2ff);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   font-size: 12px;
-  color: var(--mu, #4f5478);
+  color: #94A3B8;
 }
+
 .drawer-contact-item {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--fb, "DM Sans", sans-serif);
+  font-family: var(--fb, "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
   font-weight: 500;
+  color: #CBD5E1;
 }
+
 .drawer-contact-item svg {
   width: 14px;
   height: 14px;
-  stroke: var(--cob, #0b1fb8);
+  stroke: #F59E0B;
   flex-shrink: 0;
 }
 
-/* Legal Footer */
+/* Legal Footer in Drawer */
 .drawer-legal-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-size: 11px;
-  color: var(--mu, #4f5478);
+  color: #94A3B8;
   padding-top: 10px;
-  border-top: 1px solid var(--sec, #f4f2ff);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   flex-wrap: wrap;
   gap: 6px;
 }
+
 .legal-links {
   display: flex;
-  gap: 6px;
+  gap: 8px;
 }
+
 .legal-links a {
-  color: var(--mu, #4f5478);
+  color: #CBD5E1;
   text-decoration: none;
 }
+
 .legal-links a:hover {
-  color: var(--cob, #0b1fb8);
+  color: #F59E0B;
   text-decoration: underline;
 }
 
 /* ==========================================================================
-   RESPONSIVE BREAKPOINTS: ROCK-SOLID LAYOUT ON EVERY SCREEN
+   9. RESPONSIVE BREAKPOINTS
    ========================================================================== */
-
-/* Very Wide Screens (>= 1241px): Full Horizontal Nav + Hamburger */
 @media (min-width: 1241px) {
   .nav-menu {
     display: flex;
@@ -1025,9 +1121,6 @@ html, body {
   }
 }
 
-/* Screen widths <= 1240px (Laptops, Tablets, etc.):
-   Horizontal menu cleanly collapses into the Hamburger Menu!
-   Header shows: [Logo] ------------- [Book a Consultation] [Menu ☰] */
 @media (max-width: 1240px) {
   .nav-menu {
     display: none !important;
@@ -1040,8 +1133,6 @@ html, body {
   }
 }
 
-/* Screen widths <= 960px:
-   Make the hamburger button a compact circular button [☰] */
 @media (max-width: 960px) {
   .nav-toggle-label {
     display: none;
@@ -1054,8 +1145,6 @@ html, body {
   }
 }
 
-/* Mobile Phones (< 600px):
-   Everything streamlined for mobile touch */
 @media (max-width: 600px) {
   .top-announcement-bar {
     font-size: 11.5px;

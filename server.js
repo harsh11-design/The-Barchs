@@ -23,7 +23,12 @@ const MIME_TYPES = {
 function resolveFile(rawPath) {
   let candidates = [];
 
-  // Try inside barchs-site first (the canonical multi-page site)
+  // Try inside The-Barchs first (the primary target project)
+  let p0 = path.join(__dirname, 'The-Barchs', rawPath);
+  candidates.push(p0);
+  candidates.push(path.join(p0, 'index.html'));
+
+  // Try inside barchs-site
   let p2 = path.join(__dirname, 'barchs-site', rawPath);
   candidates.push(p2);
   candidates.push(path.join(p2, 'index.html'));
